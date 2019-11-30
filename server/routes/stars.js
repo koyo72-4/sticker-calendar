@@ -97,6 +97,16 @@ router.put('/:id', (req, res) => {
     res.send(updatedStar);
 });
 
+router.delete('/:id', (req, res) => {
+    const star = starDays.find(starDay => starDay.id === parseInt(req.params.id));
+    if (!star) {
+        return res.status(404).send('The starred day with the given id was not found.');
+    }
+
+    starDays.splice(starDays.indexOf(star), 1);
+    res.send(star);
+});
+
 function validateStar(star) {
     const schema = Joi.object().keys({
         year: Joi.number().integer().min(1753).max(9999).required(),
