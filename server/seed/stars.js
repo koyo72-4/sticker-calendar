@@ -1,5 +1,6 @@
 module.exports = () => [
     {
+        id: 1,
         year: 2020,
         month: 'jan',
         day: 1,
@@ -8,6 +9,7 @@ module.exports = () => [
         ]
     },
     {
+        id: 2,
         year: 2020,
         month: 'apr',
         day: 10,
@@ -17,6 +19,7 @@ module.exports = () => [
         ]
     },
     {
+        id: 3,
         year: 2020,
         month: 'sep',
         day: 25,
@@ -27,6 +30,7 @@ module.exports = () => [
         ]
     },
     {
+        id: 4,
         year: 2021,
         month: 'feb',
         day: 1,
@@ -35,6 +39,7 @@ module.exports = () => [
         ]
     },
     {
+        id: 5,
         year: 2021,
         month: 'may',
         day: 10,
@@ -44,6 +49,7 @@ module.exports = () => [
         ]
     },
     {
+        id: 6,
         year: 2021,
         month: 'oct',
         day: 25,
