@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     res.send(starDays);
 });
 
-router.get('/:year', (req, res) => {
+router.get('/year/:year', (req, res) => {
     const goal = req.query.goal;
     const filterStars = ({ year, stars }) => {
         if (year === parseInt(req.params.year)) {
@@ -24,6 +24,14 @@ router.get('/:year', (req, res) => {
     } else {
         return res.send('No stars have been achieved that year');
     }
+});
+
+router.get('/:id', (req, res) => {
+    const star = starDays.find(starDay => starDay.id === parseInt(req.params.id));
+    if (!star) {
+        return res.status(404).send('The starred day with the given id was not found.');
+    }
+    res.send(star);
 });
 
 const monthDays = new Map([
@@ -68,6 +76,25 @@ router.post('/', async (req, res) => {
     };
     starDays.push(star);
     res.send(star);
+});
+
+router.put('/:id', (req, res) => {
+    const star = starDays.find(starDay => starDay.id === parseInt(req.params.id));
+    if (!star) {
+        return res.status(404).send('The starred day with the given id was not found.');
+    }
+
+    const { error } = validateStar(req.body);
+    if (error) {
+        return res.status(400).send(error.details.map(error => error.message).join('\n'));
+    }
+
+    const updatedStar = {
+        ...star,
+        ...req.body
+    };
+    starDays.splice(starDays.indexOf(star), 1, updatedStar);
+    res.send(updatedStar);
 });
 
 function validateStar(star) {
