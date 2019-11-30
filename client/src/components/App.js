@@ -1,6 +1,6 @@
 import React from 'react';
 import { Month } from './Month';
-import { populateYear } from '../util/months';
+import { populateYear, monthIndexMap } from '../util/months';
 import '../css/App.css';
 
 class App extends React.Component {
@@ -8,11 +8,12 @@ class App extends React.Component {
 		super(props);
 
 		this.state = {
-			year: populateYear(2020),
+			year: 2020,
+			populatedYear: populateYear(2020),
 			starredDays: []
 		};
 
-		this.monthRefs = this.state.year.reduce((refsObject, value, index) => {
+		this.monthRefs = this.state.populatedYear.reduce((refsObject, value, index) => {
 			refsObject[`month${index + 1}`] = React.createRef();
 			return refsObject;
 		}, {});
@@ -45,7 +46,7 @@ class App extends React.Component {
 
 	handleYearChange(event) {
 		const year = parseInt(event.target.value);
-		this.setState({ year: populateYear(year) });
+		this.setState({ year, populatedYear: populateYear(year) });
 	}
 
 	componentDidMount() {
@@ -61,6 +62,8 @@ class App extends React.Component {
 	}
 
 	render() {
+		const { starredDays, populatedYear, year } = this.state;
+
 		return (
 			<div className="container">
 				<h1>Sticker Calendar</h1>
@@ -82,12 +85,21 @@ class App extends React.Component {
 				</select>
 				<br/>
 				<br/>
-				{this.state.year.map((month, index) => {
+				{populatedYear.map((month, index) => {
+					const monthIndex = index + 1;
+					const starredDaysInMonth = starredDays.filter(starredDay => {
+						return (
+							(year === starredDay.year) &&
+							(monthIndexMap.get(monthIndex) === starredDay.month)
+						);
+					});
+
 					return (
 						<Month
 							month={month}
-							index={index + 1}
-							key={index + 1}
+							starredDays={starredDaysInMonth}
+							index={monthIndex}
+							key={monthIndex}
 							ref={this.monthRefs[`month${index + 1}`]}
 						/>
 					);

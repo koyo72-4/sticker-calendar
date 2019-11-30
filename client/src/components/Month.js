@@ -24,12 +24,19 @@ export const Month = React.forwardRef((props, ref) => (
             {props.month.map((week, index, month) => {
                 return (
                     <tr key={`tr ${month} ${index} ${week}`}>
-                        {week.map((day, index, week) => (
-                            <Day
-                                key={`td ${week} ${index} ${day}`}
-                                day={day}
-                            />
-                        ))}
+                        {week.map((day, index, week) => {
+                            const starredDay = props.starredDays.find(starredDay => starredDay.day === day);
+                            const starred = !!starredDay;
+
+                            return (
+                                <Day
+                                    key={`td ${week} ${index} ${day}`}
+                                    day={day}
+                                    starred={starred}
+                                    stars={starred ? starredDay.stars : ['']}
+                                />
+                            );
+                        })}
                     </tr>
                 );
             })}
