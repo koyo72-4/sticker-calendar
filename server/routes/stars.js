@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
         numberOfDays = isLeapYear(year) ? 29 : 28;
     } else {
         numberOfDays = monthDays.get(
-            [...monthDays.keys()].find(([months]) => months.includes(req.body.month))
+            [...monthDays.keys()].find(months => months.includes(req.body.month))
         );
     }
 
