@@ -42,35 +42,21 @@ class App extends React.Component {
 			threshold: new Array(101).fill(0).map((value, index, array) => index / (array.length - 1))
 		});
 
-		this.handleYearChange = this.handleYearChange.bind(this);
-		this.handleGoalChange = this.handleGoalChange.bind(this);
+		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	handleYearChange(event) {
-		const year = parseInt(event.target.value);
-		const fetchUrl = `/api/stars/year/${year}${this.state.goal ? `?goal=${this.state.goal}` : ''}`;
+	handleInputChange({ target: { name, value }}) {
+		const year = name === 'year' ? parseInt(value) : this.state.year;
+		const goal = name === 'goal' ? value : this.state.goal;
+		const fetchUrl = `/api/stars/year/${year}${goal ? `?goal=${goal}` : ''}`;
 
 		fetch(fetchUrl)
 			.then(response => response.json())
 			.then(result => {
 				this.setState({
-					year,
-					populatedYear: populateYear(year),
-					starredDays: result
-				});
-			});
-	}
-
-	handleGoalChange(event) {
-		const goal = event.target.value;
-		const fetchUrl = `/api/stars/year/${this.state.year}${goal ? `?goal=${goal}` : ''}`;
-
-		fetch(fetchUrl)
-			.then(response => response.json())
-			.then(result => {
-				this.setState({
-					goal,
+					[name]: name === 'year' ? year : goal,
+					...name === 'year' && { populatedYear: populateYear(year) },
 					starredDays: result
 				});
 			});
@@ -93,14 +79,19 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { starredDays, populatedYear, year } = this.state;
+		const { starredDays, populatedYear, year, goal } = this.state;
 
 		return (
 			<div className="container">
 				<h1>Sticker Calendar</h1>
 				<br/>
 				<label htmlFor="year-select">Year: </label>
-				<select id="year-select" onChange={this.handleYearChange}>
+				<select
+					id="year-select"
+					name="year"
+					value={year}
+					onChange={this.handleInputChange}
+				>
 					<option value="2020">2020</option>
 					<option value="2021">2021</option>
 					<option value="2022">2022</option>
@@ -108,7 +99,12 @@ class App extends React.Component {
 				</select>
 				<br/>
 				<label htmlFor="goal-select">What is your goal? </label>
-				<select id="goal-select" onChange={this.handleGoalChange}>
+				<select
+					id="goal-select"
+					name="goal"
+					value={goal}
+					onChange={this.handleInputChange}
+				>
 					<option value="">All Goals</option>
 					<option value="exercise">Exercise</option>
 					<option value="novel">Work on your novel</option>
