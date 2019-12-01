@@ -42,11 +42,16 @@ class App extends React.Component {
 		});
 
 		this.handleYearChange = this.handleYearChange.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 	}
 
 	handleYearChange(event) {
 		const year = parseInt(event.target.value);
 		this.setState({ year, populatedYear: populateYear(year) });
+	}
+
+	handleClick() {
+		console.log('clicked!');
 	}
 
 	componentDidMount() {
@@ -98,6 +103,7 @@ class App extends React.Component {
 						<Month
 							month={month}
 							starredDays={starredDaysInMonth}
+							handleClick={this.handleClick}
 							index={monthIndex}
 							key={monthIndex}
 							ref={this.monthRefs[`month${index + 1}`]}

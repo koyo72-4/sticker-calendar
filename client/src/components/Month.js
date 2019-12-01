@@ -1,5 +1,5 @@
 import React from 'react';
-import Day from './Day';
+import { Day } from './Day';
 import '../css/Month.css';
 
 export const Month = React.forwardRef((props, ref) => (
@@ -34,6 +34,7 @@ export const Month = React.forwardRef((props, ref) => (
                                     day={day}
                                     starred={starred}
                                     stars={starred ? starredDay.stars : ['']}
+                                    handleClick={props.handleClick}
                                 />
                             );
                         })}
