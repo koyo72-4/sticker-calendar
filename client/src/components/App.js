@@ -10,6 +10,7 @@ class App extends React.Component {
 		this.state = {
 			year: 2020,
 			populatedYear: populateYear(2020),
+			goal: '',
 			starredDays: [],
 			goalSpecificStarredDays: []
 		};
@@ -49,7 +50,25 @@ class App extends React.Component {
 
 	handleYearChange(event) {
 		const year = parseInt(event.target.value);
-		this.setState({ year, populatedYear: populateYear(year) });
+		const goalSpecificStarredDays = this.state.goal
+			? this.state.starredDays.reduce((daysArray, starredDay) => {
+					if (starredDay.stars.includes(this.state.goal)) {
+						daysArray.push({ ...starredDay, stars: [this.state.goal] });
+					}
+					return daysArray;
+				}, [])
+			: [];
+
+		fetch(`/api/stars/year/${year}`)
+			.then(response => response.json())
+			.then(result => {
+				this.setState({
+					year,
+					populatedYear: populateYear(year),
+					starredDays: result,
+					goalSpecificStarredDays
+				});
+			});
 	}
 
 	handleGoalChange(event) {
@@ -63,7 +82,10 @@ class App extends React.Component {
 				}, [])
 			: [];
 
-		this.setState({ goalSpecificStarredDays });
+		this.setState({
+			goal,
+			goalSpecificStarredDays
+		});
 	}
 
 	handleClick() {
@@ -71,7 +93,7 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		fetch('/api/stars')
+		fetch(`/api/stars/year/${this.state.year}`)
 			.then(response => response.json())
 			.then(result => {
 				this.setState({ starredDays: result });
@@ -83,8 +105,8 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { starredDays, goalSpecificStarredDays, populatedYear, year } = this.state;
-		const starredDaysToDisplay = goalSpecificStarredDays.length ? goalSpecificStarredDays : starredDays;
+		const { starredDays, goal, goalSpecificStarredDays, populatedYear, year } = this.state;
+		const starredDaysToDisplay = goal ? goalSpecificStarredDays : starredDays;
 
 		return (
 			<div className="container">
