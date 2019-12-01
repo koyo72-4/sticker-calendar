@@ -10,7 +10,8 @@ class App extends React.Component {
 		this.state = {
 			year: 2020,
 			populatedYear: populateYear(2020),
-			starredDays: []
+			starredDays: [],
+			goalSpecificStarredDays: []
 		};
 
 		this.monthRefs = this.state.populatedYear.reduce((refsObject, value, index) => {
@@ -42,12 +43,27 @@ class App extends React.Component {
 		});
 
 		this.handleYearChange = this.handleYearChange.bind(this);
+		this.handleGoalChange = this.handleGoalChange.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 	}
 
 	handleYearChange(event) {
 		const year = parseInt(event.target.value);
 		this.setState({ year, populatedYear: populateYear(year) });
+	}
+
+	handleGoalChange(event) {
+		const goal = event.target.value;
+		const goalSpecificStarredDays = goal
+			? this.state.starredDays.reduce((daysArray, starredDay) => {
+					if (starredDay.stars.includes(goal)) {
+						daysArray.push({ ...starredDay, stars: [goal] });
+					}
+					return daysArray;
+				}, [])
+			: [];
+
+		this.setState({ goalSpecificStarredDays });
 	}
 
 	handleClick() {
@@ -67,7 +83,8 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { starredDays, populatedYear, year } = this.state;
+		const { starredDays, goalSpecificStarredDays, populatedYear, year } = this.state;
+		const starredDaysToDisplay = goalSpecificStarredDays.length ? goalSpecificStarredDays : starredDays;
 
 		return (
 			<div className="container">
@@ -81,8 +98,9 @@ class App extends React.Component {
 					<option value="2023">2023</option>
 				</select>
 				<br/>
-				<p>What is your goal?</p>
-				<select>
+				<label htmlFor="goal-select">What is your goal? </label>
+				<select id="goal-select" onChange={this.handleGoalChange}>
+					<option value="">All Goals</option>
 					<option value="exercise">Exercise</option>
 					<option value="novel">Work on your novel</option>
 					<option value="instrument">Practice a musical instrument</option>
@@ -92,7 +110,7 @@ class App extends React.Component {
 				<br/>
 				{populatedYear.map((month, index) => {
 					const monthIndex = index + 1;
-					const starredDaysInMonth = starredDays.filter(starredDay => {
+					const starredDaysInMonth = starredDaysToDisplay.filter(starredDay => {
 						return (
 							(year === starredDay.year) &&
 							(monthIndexMap.get(monthIndex) === starredDay.month)
