@@ -10,19 +10,23 @@ router.get('/', (req, res) => {
 });
 
 router.get('/year/:year', (req, res) => {
-    const goal = req.query.goal;
-    const filterStars = ({ year, stars }) => {
-        if (year === parseInt(req.params.year)) {
-            return goal ? stars.includes(goal) : true;
-        }
-        return false;
-    };
-    const stars = starDays.filter(filterStars);
+    const { goal } = req.query;
+    const filterStarDaysByYear = (({ year }) => year === parseInt(req.params.year));
 
-    if (stars.length) {
-        return res.send(stars);
+    let filteredDays = starDays.filter(filterStarDaysByYear);
+    if (goal) {
+        filteredDays = filteredDays.reduce((daysArray, starredDay) => {
+            if (starredDay.stars.includes(goal)) {
+                daysArray.push({ ...starredDay, stars: [goal] });
+            }
+            return daysArray;
+        }, []);
+    }
+
+    if (filteredDays.length) {
+        res.send(filteredDays);
     } else {
-        return res.send('No stars have been achieved that year');
+        res.send('No stars have been achieved that year');
     }
 });
 

@@ -11,8 +11,7 @@ class App extends React.Component {
 			year: 2020,
 			populatedYear: populateYear(2020),
 			goal: '',
-			starredDays: [],
-			goalSpecificStarredDays: []
+			starredDays: []
 		};
 
 		this.monthRefs = this.state.populatedYear.reduce((refsObject, value, index) => {
@@ -50,42 +49,31 @@ class App extends React.Component {
 
 	handleYearChange(event) {
 		const year = parseInt(event.target.value);
-		const goalSpecificStarredDays = this.state.goal
-			? this.state.starredDays.reduce((daysArray, starredDay) => {
-					if (starredDay.stars.includes(this.state.goal)) {
-						daysArray.push({ ...starredDay, stars: [this.state.goal] });
-					}
-					return daysArray;
-				}, [])
-			: [];
+		const fetchUrl = `/api/stars/year/${year}${this.state.goal ? `?goal=${this.state.goal}` : ''}`;
 
-		fetch(`/api/stars/year/${year}`)
+		fetch(fetchUrl)
 			.then(response => response.json())
 			.then(result => {
 				this.setState({
 					year,
 					populatedYear: populateYear(year),
-					starredDays: result,
-					goalSpecificStarredDays
+					starredDays: result
 				});
 			});
 	}
 
 	handleGoalChange(event) {
 		const goal = event.target.value;
-		const goalSpecificStarredDays = goal
-			? this.state.starredDays.reduce((daysArray, starredDay) => {
-					if (starredDay.stars.includes(goal)) {
-						daysArray.push({ ...starredDay, stars: [goal] });
-					}
-					return daysArray;
-				}, [])
-			: [];
+		const fetchUrl = `/api/stars/year/${this.state.year}${goal ? `?goal=${goal}` : ''}`;
 
-		this.setState({
-			goal,
-			goalSpecificStarredDays
-		});
+		fetch(fetchUrl)
+			.then(response => response.json())
+			.then(result => {
+				this.setState({
+					goal,
+					starredDays: result
+				});
+			});
 	}
 
 	handleClick() {
@@ -105,8 +93,7 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { starredDays, goal, goalSpecificStarredDays, populatedYear, year } = this.state;
-		const starredDaysToDisplay = goal ? goalSpecificStarredDays : starredDays;
+		const { starredDays, populatedYear, year } = this.state;
 
 		return (
 			<div className="container">
@@ -132,7 +119,7 @@ class App extends React.Component {
 				<br/>
 				{populatedYear.map((month, index) => {
 					const monthIndex = index + 1;
-					const starredDaysInMonth = starredDaysToDisplay.filter(starredDay => {
+					const starredDaysInMonth = starredDays.filter(starredDay => {
 						return (
 							(year === starredDay.year) &&
 							(monthIndexMap.get(monthIndex) === starredDay.month)
