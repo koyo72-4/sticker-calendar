@@ -62,8 +62,30 @@ class App extends React.Component {
 			});
 	}
 
-	handleClick() {
-		console.log('clicked!');
+	handleClick(month, day) {
+		const { year, goal } = this.state;
+
+		const starDayObject = {
+			year,
+			month: [...monthIndexMap.entries()].find(([key]) => key === month)[1],
+			day,
+			stars: [goal]
+		};
+
+		fetch('/api/stars', {
+			method: 'POST',
+			body: JSON.stringify(starDayObject),
+			headers: {'Content-Type': 'application/json'}
+		})
+			.then(response => response.json())
+			.then(result => {
+				fetch(`/api/stars/year/${year}?goal=${goal}`)
+					.then(response => response.json())
+					.then(result => {
+						this.setState({ starredDays: result });
+					});
+			});
+
 	}
 
 	componentDidMount() {

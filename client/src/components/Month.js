@@ -32,6 +32,7 @@ export const Month = React.forwardRef((props, ref) => (
                                 <Day
                                     key={`td ${week} ${index} ${day}`}
                                     day={day}
+                                    month={props.index}
                                     starred={starred}
                                     stars={starred ? starredDay.stars : ['']}
                                     handleClick={props.handleClick}
