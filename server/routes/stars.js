@@ -10,18 +10,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/year/:year', (req, res) => {
-    const { goal } = req.query;
-    const filterStarDaysByYear = (({ year }) => year === parseInt(req.params.year));
-
-    let filteredDays = starDays.filter(filterStarDaysByYear);
-    if (goal) {
-        filteredDays = filteredDays.reduce((daysArray, starredDay) => {
-            if (starredDay.stars.includes(goal)) {
-                daysArray.push({ ...starredDay, stars: [goal] });
-            }
-            return daysArray;
-        }, []);
-    }
+    let filteredDays = starDays.filter(({ year }) => year === parseInt(req.params.year));
 
     if (filteredDays.length) {
         res.send(filteredDays);
@@ -82,7 +71,7 @@ router.post('/', async (req, res) => {
     res.send(star);
 });
 
-router.put('/:id', (req, res) => {
+router.put('/id/:id', (req, res) => {
     const star = starDays.find(starDay => starDay.id === parseInt(req.params.id));
     if (!star) {
         return res.status(404).send('The starred day with the given id was not found.');
@@ -96,6 +85,25 @@ router.put('/:id', (req, res) => {
     const updatedStar = {
         ...star,
         ...req.body
+    };
+    starDays.splice(starDays.indexOf(star), 1, updatedStar);
+    res.send(updatedStar);
+});
+
+router.put('/add', (req, res) => {
+    const star = starDays.find(starDay => (starDay.year === parseInt(req.body.year)) && (starDay.month === req.body.month) && (starDay.day === parseInt(req.body.day)));
+    if (!star) {
+        return res.status(404).send('The starred day with the given year, month, and day was not found.');
+    }
+
+    const { error } = validateStar(req.body);
+    if (error) {
+        return res.status(400).send(error.details.map(error => error.message).join('\n'));
+    }
+
+    const updatedStar = {
+        ...star,
+        stars: [...star.stars, ...req.body.stars]
     };
     starDays.splice(starDays.indexOf(star), 1, updatedStar);
     res.send(updatedStar);

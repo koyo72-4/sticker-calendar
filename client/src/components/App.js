@@ -49,7 +49,7 @@ class App extends React.Component {
 	handleInputChange({ target: { name, value }}) {
 		const year = name === 'year' ? parseInt(value) : this.state.year;
 		const goal = name === 'goal' ? value : this.state.goal;
-		const fetchUrl = `/api/stars/year/${year}${goal ? `?goal=${goal}` : ''}`;
+		const fetchUrl = `/api/stars/year/${year}`;
 
 		fetch(fetchUrl)
 			.then(response => response.json())
@@ -62,27 +62,29 @@ class App extends React.Component {
 			});
 	}
 
-	handleClick(month, day) {
+	handleClick(month, day, alreadyStarred) {
 		const { year, goal } = this.state;
-
 		const starDayObject = {
 			year,
 			month: [...monthIndexMap.entries()].find(([key]) => key === month)[1],
 			day,
 			stars: [goal]
 		};
+		const requestMethod = alreadyStarred ? 'PUT' : 'POST';
 
-		fetch('/api/stars', {
-			method: 'POST',
+		fetch(`/api/stars${requestMethod === 'PUT' ? '/add' : ''}`, {
+			method: requestMethod,
 			body: JSON.stringify(starDayObject),
 			headers: {'Content-Type': 'application/json'}
 		})
 			.then(response => response.json())
 			.then(result => {
-				fetch(`/api/stars/year/${year}?goal=${goal}`)
+				fetch(`/api/stars/year/${year}`)
 					.then(response => response.json())
 					.then(result => {
-						this.setState({ starredDays: result });
+						this.setState({
+							starredDays: result
+						});
 					});
 			});
 
@@ -137,17 +139,16 @@ class App extends React.Component {
 				<br/>
 				{populatedYear.map((month, index) => {
 					const monthIndex = index + 1;
-					const starredDaysInMonth = starredDays.filter(starredDay => {
-						return (
-							(year === starredDay.year) &&
-							(monthIndexMap.get(monthIndex) === starredDay.month)
-						);
-					});
+					const starredDaysInMonth = starredDays.filter(starredDay =>
+						(year === starredDay.year) &&
+						(monthIndexMap.get(monthIndex) === starredDay.month)
+					);
 
 					return (
 						<Month
 							month={month}
 							starredDays={starredDaysInMonth}
+							goal={goal}
 							handleClick={this.handleClick}
 							index={monthIndex}
 							key={monthIndex}
