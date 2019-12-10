@@ -7,9 +7,11 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 
+		const currentYear = new Date().getFullYear();
+
 		this.state = {
-			year: 2020,
-			populatedYear: populateYear(2020),
+			year: currentYear,
+			populatedYear: populateYear(currentYear),
 			goal: '',
 			starredDays: []
 		};
@@ -116,6 +118,9 @@ class App extends React.Component {
 					value={year}
 					onChange={this.handleInputChange}
 				>
+					<option value="2017">2017</option>
+					<option value="2018">2018</option>
+					<option value="2019">2019</option>
 					<option value="2020">2020</option>
 					<option value="2021">2021</option>
 					<option value="2022">2022</option>
