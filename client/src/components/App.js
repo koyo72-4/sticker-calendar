@@ -23,21 +23,16 @@ class App extends React.Component {
 		}, {});
 
 		const intersectionCallback = (entries, observer) => {
-			entries.forEach(entry => {
-				const cssClasses = Array.from(entry.target.classList);
-				const opacityClass = cssClasses.find(cssClass => cssClass.includes('opacity'));
-				if (entry.intersectionRatio === 1.0) {
-					entry.target.classList.replace(opacityClass, 'opacity100');
-					observer.unobserve(entry.target);
-				} else if (entry.intersectionRatio >= 0.75) {
-					entry.target.classList.replace(opacityClass, 'opacity50');
-				} else if (entry.intersectionRatio >= 0.5) {
-					entry.target.classList.replace(opacityClass, 'opacity25');
-				} else if (entry.intersectionRatio >= 0.1) {
-					entry.target.classList.replace(opacityClass, 'opacity10');
-				} else {
-					entry.target.classList.replace(opacityClass, 'opacity0');
+			const changeOpacity = (element, intersectionRatio) => {
+				const opacityClass = Array.from(element.classList).find(cssClass => cssClass.includes('opacity'));
+				const roundedIntersectionRatio = Math.floor(intersectionRatio * 10) / 10;
+				element.classList.replace(opacityClass, `opacity${roundedIntersectionRatio * 100}`);
+				if (roundedIntersectionRatio === 1) {
+					observer.unobserve(element);
 				}
+			};
+			entries.forEach(entry => {
+				changeOpacity(entry.target, entry.intersectionRatio);
 			});
 		};
 
