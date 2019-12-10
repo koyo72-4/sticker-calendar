@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'react-uuid';
 import { Month } from './Month';
 import { populateYear, monthIndexMap } from '../util/months';
 import '../css/App.css';
@@ -156,7 +157,7 @@ class App extends React.Component {
 							goal={goal}
 							handleClick={this.handleClick}
 							index={monthIndex}
-							key={monthIndex}
+							key={uuid()}
 							ref={this.monthRefs[`month${index + 1}`]}
 						/>
 					);

@@ -17,6 +17,7 @@
     "@hapi/joi": "^16.1.8",
     "concurrently": "^5.0.0",
     "esm": "^3.2.25",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "react-uuid": "^1.0.2"
   }
 }
