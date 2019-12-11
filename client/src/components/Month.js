@@ -1,5 +1,4 @@
 import React from 'react';
-import uuid from 'react-uuid';
 import { Day } from './Day';
 import '../css/Month.css';
 
@@ -22,10 +21,10 @@ export const Month = React.forwardRef((props, ref) => (
             </tr>
         </thead>
         <tbody>
-            {props.month.map(week => {
+            {props.month.map((week, index, month) => {
                 return (
-                    <tr key={uuid()}>
-                        {week.map(day => {
+                    <tr key={`tr ${month} ${index} ${week}`}>
+                        {week.map((day, index, week) => {
                             const starredDay = props.starredDays.find(starredDay => starredDay.day === day);
                             const starred = !!starredDay;
 
@@ -46,7 +45,7 @@ export const Month = React.forwardRef((props, ref) => (
 
                             return (
                                 <Day
-                                    key={uuid()}
+                                    key={`td ${week} ${index} ${day}`}
                                     day={day}
                                     month={props.index}
                                     starred={starred}
