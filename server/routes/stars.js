@@ -15,7 +15,7 @@ router.get('/year/:year', (req, res) => {
     if (filteredDays.length) {
         res.send(filteredDays);
     } else {
-        res.send('No stars have been achieved that year');
+        res.send([]);
     }
 });
 

@@ -137,6 +137,7 @@ class App extends React.Component {
 				</select>
 				<br/>
 				<br/>
+				{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
 				{populatedYear.map((month, index) => {
 					const monthIndex = index + 1;
 					const starredDaysInMonth = starredDays.filter(starredDay =>
