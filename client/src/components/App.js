@@ -41,10 +41,12 @@ class App extends React.Component {
 
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleClick = this.handleClick.bind(this);
+		this.handleSearch = this.handleSearch.bind(this);
+		this.handleYearChange = this.handleYearChange.bind(this);
 	}
 
 	handleInputChange({ target: { name, value }}) {
-		const year = name === 'year' ? parseInt(value) : this.state.year;
+		const year = name === 'year' ? parseInt(value, 10) : this.state.year;
 		const goal = name === 'goal' ? value : this.state.goal;
 		const fetchUrl = `/api/stars/year/${year}`;
 
@@ -55,6 +57,21 @@ class App extends React.Component {
 					[name]: name === 'year' ? year : goal,
 					...name === 'year' && { populatedYear: populateYear(year) },
 					starredDays: result
+				});
+			});
+	}
+
+	handleYearChange({ target: { value } }) {
+		this.setState({ year: parseInt(value, 10) });
+	}
+
+	handleSearch() {
+		fetch(`/api/stars/year/${this.state.year}`)
+			.then(response => response.json())
+			.then(result => {
+				this.setState({
+					starredDays: result,
+					populatedYear: populateYear(this.state.year)
 				});
 			});
 	}
@@ -106,22 +123,6 @@ class App extends React.Component {
 			<div className="container">
 				<h1>Sticker Calendar</h1>
 				<br/>
-				<label htmlFor="year-select">Year: </label>
-				<select
-					id="year-select"
-					name="year"
-					value={year}
-					onChange={this.handleInputChange}
-				>
-					<option value="2017">2017</option>
-					<option value="2018">2018</option>
-					<option value="2019">2019</option>
-					<option value="2020">2020</option>
-					<option value="2021">2021</option>
-					<option value="2022">2022</option>
-					<option value="2023">2023</option>
-				</select>
-				<br/>
 				<label htmlFor="goal-select">What is your goal? </label>
 				<select
 					id="goal-select"
@@ -135,6 +136,23 @@ class App extends React.Component {
 					<option value="instrument">Practice a musical instrument</option>
 					<option value="sweets">Avoid sweets</option>
 				</select>
+				<br />
+				<br />
+				<label htmlFor="year-input">Year: </label>
+				<input
+					type="text"
+					id="year-input"
+					name="year"
+					value={year}
+					onChange={this.handleYearChange}
+				/>
+				<br />
+				<br />
+				<button
+					onClick={this.handleSearch}
+				>
+					Submit
+				</button>
 				<br/>
 				<br/>
 				{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
