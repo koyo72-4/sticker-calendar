@@ -1,3 +1,15 @@
 .container {
     margin: 50px;
 }
+
+#year-input {
+    width: 45px;
+}
+
+.caret-left {
+    margin-right: 10px;
+}
+
+.caret-right {
+    margin-left: 10px;
+}

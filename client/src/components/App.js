@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Month } from './Month';
 import { populateYear, monthIndexMap } from '../util/months';
 import '../css/App.css';
@@ -44,6 +46,7 @@ class App extends React.Component {
 		this.handleSearch = this.handleSearch.bind(this);
 		this.handleYearChange = this.handleYearChange.bind(this);
 		this.handleKeyPress = this.handleKeyPress.bind(this);
+		this.shiftYear = this.shiftYear.bind(this);
 	}
 
 	handleInputChange({ target: { name, value }}) {
@@ -64,6 +67,15 @@ class App extends React.Component {
 
 	handleYearChange({ target: { value } }) {
 		this.setState({ year: parseInt(value, 10) });
+	}
+
+	shiftYear({ target: { id } }) {
+		const year = id === 'subtractYear'
+			? this.state.year - 1
+			: this.state.year + 1;
+		this.setState({ year }, () => {
+			this.handleSearch();
+		});
 	}
 
 	handleSearch() {
@@ -154,6 +166,22 @@ class App extends React.Component {
 					onChange={this.handleYearChange}
 					onKeyPress={this.handleKeyPress}
 				/>
+				<br />
+				<br />
+				<button
+					id="subtractYear"
+					onClick={this.shiftYear}
+				>
+					<FontAwesomeIcon icon={faCaretLeft} className="caret-left" />
+					{year - 1}
+				</button>
+				<button
+					id="addYear"
+					onClick={this.shiftYear}
+				>
+					{year + 1}
+					<FontAwesomeIcon icon={faCaretRight} className="caret-right" />
+				</button>
 				<br />
 				<br />
 				<button
