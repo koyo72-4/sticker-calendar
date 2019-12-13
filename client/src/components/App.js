@@ -76,6 +76,12 @@ class App extends React.Component {
 			});
 	}
 
+	handleKeyPress({ charCode }) {
+		if (charCode === 13) {
+			this.handleSearch();
+		}
+	}
+
 	handleClick(month, day, alreadyStarred) {
 		const { year, goal } = this.state;
 		const starDayObject = {
@@ -145,6 +151,7 @@ class App extends React.Component {
 					name="year"
 					value={year}
 					onChange={this.handleYearChange}
+					onKeyPress={(event) => this.handleKeyPress(event)}
 				/>
 				<br />
 				<br />
