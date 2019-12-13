@@ -43,6 +43,7 @@ class App extends React.Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
 		this.handleYearChange = this.handleYearChange.bind(this);
+		this.handleKeyPress = this.handleKeyPress.bind(this);
 	}
 
 	handleInputChange({ target: { name, value }}) {
@@ -151,7 +152,7 @@ class App extends React.Component {
 					name="year"
 					value={year}
 					onChange={this.handleYearChange}
-					onKeyPress={(event) => this.handleKeyPress(event)}
+					onKeyPress={this.handleKeyPress}
 				/>
 				<br />
 				<br />
