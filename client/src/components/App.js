@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Month } from './Month';
+import { GoalSelect } from './GoalSelect';
 import { populateYear, monthIndexMap } from '../util/months';
 import StarApi from '../util/starApi';
 import '../css/App.css';
@@ -45,7 +46,7 @@ class App extends React.Component {
 		this.starApi = new StarApi();
 
 		this.getStarredDays = this.getStarredDays.bind(this);
-		this.handleInputChange = this.handleInputChange.bind(this);
+		this.handleGoalChange = this.handleGoalChange.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
 		this.handleYearChange = this.handleYearChange.bind(this);
@@ -60,7 +61,7 @@ class App extends React.Component {
 			});
 	}
 
-	handleInputChange({ target: { value }}) {
+	handleGoalChange({ target: { value }}) {
 		this.getStarredDays();
 		this.setState({ goal: value });
 	}
@@ -118,19 +119,10 @@ class App extends React.Component {
 			<div className="container">
 				<h1>Sticker Calendar</h1>
 				<br/>
-				<label htmlFor="goal-select">What is your goal? </label>
-				<select
-					id="goal-select"
-					name="goal"
-					value={goal}
-					onChange={this.handleInputChange}
-				>
-					<option value="">All Goals</option>
-					<option value="exercise">Exercise</option>
-					<option value="novel">Work on your novel</option>
-					<option value="instrument">Practice a musical instrument</option>
-					<option value="sweets">Avoid sweets</option>
-				</select>
+				<GoalSelect
+					goal={goal}
+					handleGoalChange={this.handleGoalChange}
+				/>
 				<br />
 				<br />
 				<label htmlFor="year-input">Year: </label>
