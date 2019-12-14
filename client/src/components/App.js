@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Month } from './Month';
 import { populateYear, monthIndexMap } from '../util/months';
+import StarApi from '../util/starApi';
 import '../css/App.css';
 
 class App extends React.Component {
@@ -41,6 +42,8 @@ class App extends React.Component {
 			threshold: new Array(101).fill(0).map((value, index, array) => index / (array.length - 1))
 		});
 
+		this.starApi = new StarApi();
+
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
@@ -52,10 +55,8 @@ class App extends React.Component {
 	handleInputChange({ target: { name, value }}) {
 		const year = name === 'year' ? parseInt(value, 10) : this.state.year;
 		const goal = name === 'goal' ? value : this.state.goal;
-		const fetchUrl = `/api/stars/year/${year}`;
 
-		fetch(fetchUrl)
-			.then(response => response.json())
+		this.starApi.getStars(year)
 			.then(result => {
 				this.setState({
 					[name]: name === 'year' ? year : goal,
@@ -79,8 +80,7 @@ class App extends React.Component {
 	}
 
 	handleSearch() {
-		fetch(`/api/stars/year/${this.state.year}`)
-			.then(response => response.json())
+		this.starApi.getStars(this.state.year)
 			.then(result => {
 				this.setState({
 					starredDays: result,
@@ -103,17 +103,11 @@ class App extends React.Component {
 			day,
 			stars: [goal]
 		};
-		const requestMethod = alreadyStarred ? 'PUT' : 'POST';
+		const starMethod = alreadyStarred ? 'addStar' : 'createStarDay';
 
-		fetch(`/api/stars${requestMethod === 'PUT' ? '/add' : ''}`, {
-			method: requestMethod,
-			body: JSON.stringify(starDayObject),
-			headers: {'Content-Type': 'application/json'}
-		})
-			.then(response => response.json())
+		this.starApi[starMethod](starDayObject)
 			.then(result => {
-				fetch(`/api/stars/year/${year}`)
-					.then(response => response.json())
+				this.starApi.getStars(year)
 					.then(result => {
 						this.setState({
 							starredDays: result
@@ -124,8 +118,7 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		fetch(`/api/stars/year/${this.state.year}`)
-			.then(response => response.json())
+		this.starApi.getStars(this.state.year)
 			.then(result => {
 				this.setState({ starredDays: result });
 			});
