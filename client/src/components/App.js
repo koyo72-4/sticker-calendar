@@ -1,8 +1,7 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Month } from './Month';
 import { GoalSelect } from './GoalSelect';
+import YearSwitcher from './YearSwitcher';
 import { populateYear, monthIndexMap } from '../util/months';
 import StarApi from '../util/starApi';
 import '../css/App.css';
@@ -48,10 +47,7 @@ class App extends React.Component {
 		this.getStarredDays = this.getStarredDays.bind(this);
 		this.handleGoalChange = this.handleGoalChange.bind(this);
 		this.handleClick = this.handleClick.bind(this);
-		this.handleSearch = this.handleSearch.bind(this);
-		this.handleYearChange = this.handleYearChange.bind(this);
-		this.handleKeyPress = this.handleKeyPress.bind(this);
-		this.shiftYear = this.shiftYear.bind(this);
+		this.updateYear = this.updateYear.bind(this);
 	}
 
 	getStarredDays() {
@@ -61,33 +57,13 @@ class App extends React.Component {
 			});
 	}
 
+	updateYear(year) {
+		this.setState({ year, populatedYear: populateYear(year) }, this.getStarredDays);
+	}
+
 	handleGoalChange({ target: { value }}) {
 		this.getStarredDays();
 		this.setState({ goal: value });
-	}
-
-	handleYearChange({ target: { value } }) {
-		this.setState({ year: parseInt(value, 10) });
-	}
-
-	shiftYear({ target: { id } }) {
-		const year = id === 'subtractYear'
-			? this.state.year - 1
-			: this.state.year + 1;
-		this.setState({ year }, () => {
-			this.handleSearch();
-		});
-	}
-
-	handleSearch() {
-		this.getStarredDays();
-		this.setState({ populatedYear: populateYear(this.state.year) });
-	}
-
-	handleKeyPress({ charCode }) {
-		if (charCode === 13) {
-			this.handleSearch();
-		}
 	}
 
 	handleClick(month, day, alreadyStarred) {
@@ -125,38 +101,10 @@ class App extends React.Component {
 				/>
 				<br />
 				<br />
-				<label htmlFor="year-input">Year: </label>
-				<input
-					type="text"
-					id="year-input"
-					name="year"
-					value={year}
-					onChange={this.handleYearChange}
-					onKeyPress={this.handleKeyPress}
+				<YearSwitcher
+					year={year}
+					updateYear={this.updateYear}
 				/>
-				<br />
-				<br />
-				<button
-					id="subtractYear"
-					onClick={this.shiftYear}
-				>
-					<FontAwesomeIcon icon={faCaretLeft} className="caret-left" />
-					{year - 1}
-				</button>
-				<button
-					id="addYear"
-					onClick={this.shiftYear}
-				>
-					{year + 1}
-					<FontAwesomeIcon icon={faCaretRight} className="caret-right" />
-				</button>
-				<br />
-				<br />
-				<button
-					onClick={this.handleSearch}
-				>
-					Submit
-				</button>
 				<br/>
 				<br/>
 				{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
