@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
-export default class YearSwitcher extends React.Component{
+export default class YearSwitcher extends React.Component {
     constructor(props) {
         super(props);
 
@@ -11,26 +11,33 @@ export default class YearSwitcher extends React.Component{
         }
         
         this.handleInputChange = this.handleInputChange.bind(this);
-		this.handleKeyPress = this.handleKeyPress.bind(this);
-		this.shiftByOne = this.shiftByOne.bind(this);
+        this.shiftByOne = this.shiftByOne.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
 	handleInputChange({ target: { value } }) {
-		this.setState({ inputValue: parseInt(value, 10) });
+		this.setState({ inputValue: value });
     }
     
     shiftByOne({ target: { id } }) {
-		const inputValue = id === 'subtract'
-			? this.state.inputValue - 1
-            : this.state.inputValue + 1;
-		this.setState({ inputValue }, () => {
-			this.props.updateYear(this.state.inputValue);
-		});
+        const newYear = id === 'subtract'
+            ? this.props.year - 1
+            : this.props.year + 1;
+        this.setState({ inputValue: newYear }, () => {
+            this.props.updateYear(newYear);
+        });
+    }
+
+    handleSubmit() {
+        if (parseInt(this.state.inputValue, 10)) {
+            this.props.updateYear(parseInt(this.state.inputValue, 10));
+        }
     }
     
     handleKeyPress({ charCode }) {
 		if (charCode === 13) {
-			this.props.updateYear(this.state.inputValue);
+			this.handleSubmit();
 		}
 	}
 
@@ -65,7 +72,7 @@ export default class YearSwitcher extends React.Component{
                 <br />
                 <br />
                 <button
-                    onClick={() => this.props.updateYear(this.state.inputValue)}
+                    onClick={this.handleSubmit}
                 >
                     Submit
                 </button>
