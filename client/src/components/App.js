@@ -44,6 +44,7 @@ class App extends React.Component {
 
 		this.starApi = new StarApi();
 
+		this.getStarredDays = this.getStarredDays.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
@@ -52,18 +53,16 @@ class App extends React.Component {
 		this.shiftYear = this.shiftYear.bind(this);
 	}
 
-	handleInputChange({ target: { name, value }}) {
-		const year = name === 'year' ? parseInt(value, 10) : this.state.year;
-		const goal = name === 'goal' ? value : this.state.goal;
-
-		this.starApi.getStars(year)
+	getStarredDays() {
+		this.starApi.getStars(this.state.year)
 			.then(result => {
-				this.setState({
-					[name]: name === 'year' ? year : goal,
-					...name === 'year' && { populatedYear: populateYear(year) },
-					starredDays: result
-				});
+				this.setState({ starredDays: result });
 			});
+	}
+
+	handleInputChange({ target: { value }}) {
+		this.getStarredDays();
+		this.setState({ goal: value });
 	}
 
 	handleYearChange({ target: { value } }) {
@@ -80,13 +79,8 @@ class App extends React.Component {
 	}
 
 	handleSearch() {
-		this.starApi.getStars(this.state.year)
-			.then(result => {
-				this.setState({
-					starredDays: result,
-					populatedYear: populateYear(this.state.year)
-				});
-			});
+		this.getStarredDays();
+		this.setState({ populatedYear: populateYear(this.state.year) });
 	}
 
 	handleKeyPress({ charCode }) {
@@ -106,22 +100,11 @@ class App extends React.Component {
 		const starMethod = alreadyStarred ? 'addStar' : 'createStarDay';
 
 		this.starApi[starMethod](starDayObject)
-			.then(result => {
-				this.starApi.getStars(year)
-					.then(result => {
-						this.setState({
-							starredDays: result
-						});
-					});
-			});
-
+			.then(this.getStarredDays);
 	}
 
 	componentDidMount() {
-		this.starApi.getStars(this.state.year)
-			.then(result => {
-				this.setState({ starredDays: result });
-			});
+		this.getStarredDays();
 
 		Object.values(this.monthRefs).forEach(value => {
 			this.observer.observe(value.current);
