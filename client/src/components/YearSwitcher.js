@@ -10,6 +10,8 @@ export default class YearSwitcher extends React.Component {
             inputValue: props.year
         }
         
+        this.formRef = React.createRef();
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.shiftByOne = this.shiftByOne.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -17,11 +19,11 @@ export default class YearSwitcher extends React.Component {
     }
 
 	handleInputChange({ target: { value } }) {
-		this.setState({ inputValue: value });
+		this.setState({ inputValue: value.trim() });
     }
     
     shiftByOne({ target: { id } }) {
-        const newYear = id === 'subtract'
+        const newYear = id === 'previous'
             ? this.props.year - 1
             : this.props.year + 1;
         this.setState({ inputValue: newYear }, () => {
@@ -29,53 +31,64 @@ export default class YearSwitcher extends React.Component {
         });
     }
 
-    handleSubmit() {
-        if (parseInt(this.state.inputValue, 10)) {
+    handleSubmit(event) {
+        const formIsValid = this.formRef.current.reportValidity();
+        if (formIsValid) {
+            event.preventDefault();
             this.props.updateYear(parseInt(this.state.inputValue, 10));
         }
     }
     
-    handleKeyPress({ charCode }) {
-		if (charCode === 13) {
-			this.handleSubmit();
+    handleKeyPress(event) {
+		if (event.charCode === 13) {
+			this.handleSubmit(event);
 		}
 	}
 
     render() {
         return (
             <React.Fragment>
-                <label htmlFor="year-input">Year: </label>
-                <input
-                    type="text"
-                    id="year-input"
-                    name="year"
-                    value={this.state.inputValue}
-                    onChange={this.handleInputChange}
-                    onKeyPress={this.handleKeyPress}
-                />
+                <form ref={this.formRef}>
+                    <label htmlFor="year-input">Year: </label>
+                    <input
+                        type="text"
+                        id="year-input"
+                        name="year"
+                        required
+                        pattern="^([1-9][7-9][5-9][3-9]|[1-9][8-9][0-9]{2}|[2-9][0-9]{3}|[1-9]\d{4})$"
+                        title="Please enter a valid year between 1753 and 99999, inclusive."
+                        value={this.state.inputValue}
+                        onChange={this.handleInputChange}
+                        onKeyPress={this.handleKeyPress}
+                    />
+                    <br />
+                    <br />
+                    <button
+                        type="submit"
+                        onClick={this.handleSubmit}
+                    >
+                        Submit
+                    </button>
+                </form>
                 <br />
-                <br />
-                <button
-                    id="subtract"
-                    onClick={this.shiftByOne}
-                >
-                    <FontAwesomeIcon icon={faCaretLeft} className="caret-left" />
-                    {this.props.year - 1}
-                </button>
-                <button
-                    id="add"
-                    onClick={this.shiftByOne}
-                >
-                    {this.props.year + 1}
-                    <FontAwesomeIcon icon={faCaretRight} className="caret-right" />
-                </button>
-                <br />
-                <br />
-                <button
-                    onClick={this.handleSubmit}
-                >
-                    Submit
-                </button>
+                {this.props.year > 1753 &&
+                    <button
+                        id="previous"
+                        onClick={this.shiftByOne}
+                    >
+                        <FontAwesomeIcon icon={faCaretLeft} className="caret-left" />
+                        {this.props.year - 1}
+                    </button>
+                }
+                {this.props.year < 99999 &&
+                    <button
+                        id="next"
+                        onClick={this.shiftByOne}
+                    >
+                        {this.props.year + 1}
+                        <FontAwesomeIcon icon={faCaretRight} className="caret-right" />
+                    </button>
+                }
             </React.Fragment>
         );
     }
