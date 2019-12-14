@@ -1,6 +1,6 @@
-const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+export const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const DAYS_IN_A_WEEK = 7;
-const YEAR_TWO_THOUSAND = [2000, 'saturday'];
+const YEAR_TWO_THOUSAND = [2000, 'Saturday'];
 
 export const getOffset = dayOfTheWeek => DAYS.indexOf(dayOfTheWeek);
 
@@ -10,7 +10,7 @@ export const populateMonth = (numberOfDays, startingDay) => {
     const month = [];
     for (let i = 1; i < numberOfDays + 1; i += DAYS_IN_A_WEEK) {
         const week = [];
-        if (i === 1 && startingDay !== 'sunday') {
+        if (i === 1 && startingDay !== 'Sunday') {
             for (let x = 0; x < offset; x++) {
                 week.push('');
             }

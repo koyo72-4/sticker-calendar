@@ -1,5 +1,6 @@
 import React from 'react';
 import { Day } from './Day';
+import { DAYS } from '../util/months';
 import '../css/Month.css';
 
 export const Month = React.forwardRef((props, ref) => (
@@ -11,13 +12,9 @@ export const Month = React.forwardRef((props, ref) => (
         <caption>{`Month${props.index}`}</caption>
         <thead>
             <tr>
-                <th>Sunday</th>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
+                {DAYS.map(day =>
+                    <th key={day}>{day}</th>
+                )}
             </tr>
         </thead>
         <tbody>
