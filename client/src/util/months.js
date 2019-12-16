@@ -2,30 +2,29 @@ export const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Fr
 const DAYS_IN_A_WEEK = 7;
 const YEAR_TWO_THOUSAND = [2000, 'Saturday'];
 
-export const getOffset = dayOfTheWeek => DAYS.indexOf(dayOfTheWeek);
+export const getWeekDayIndex = dayOfTheWeek => DAYS.indexOf(dayOfTheWeek);
 
-export const populateMonth = (numberOfDays, startingDay) => {
-    const offset = getOffset(startingDay);
+const getWeekIndex = (dayIndex, lengthOfFirstWeek) => {
+    const numberOfWeeksSoFar = Math.floor(dayIndex / DAYS_IN_A_WEEK);
+    return (dayIndex % DAYS_IN_A_WEEK >= lengthOfFirstWeek)
+        ? numberOfWeeksSoFar + 1
+        : numberOfWeeksSoFar;
+};
 
-    const month = [];
-    for (let i = 1; i < numberOfDays + 1; i += DAYS_IN_A_WEEK) {
-        const week = [];
-        if (i === 1 && startingDay !== 'Sunday') {
-            for (let x = 0; x < offset; x++) {
-                week.push('');
-            }
-            for (let j = i; (j < i + (DAYS_IN_A_WEEK - offset)) && (j < numberOfDays + 1); j++) {
-                week.push(j);
-            }
-            i -= offset;
-        } else {
-            for (let j = i; (j < i + DAYS_IN_A_WEEK) && (j < numberOfDays + 1); j++) {
-                week.push(j);
-            }
-        }
-        month.push(week);
+export const populateMonth = (daysInMonth, startingDay) => {
+    const weekDayIndexOfFirstDay = getWeekDayIndex(startingDay);
+    const lengthOfFirstWeek = DAYS_IN_A_WEEK - weekDayIndexOfFirstDay;
+    const numberOfWeeks = getWeekIndex(daysInMonth - 1, lengthOfFirstWeek) + 1;
+
+    const monthArray = [...Array(numberOfWeeks)].map(() => Array(DAYS_IN_A_WEEK).fill(''));
+
+    for (let i = 0; i < daysInMonth; i++) {
+        const weekDayIndex = (weekDayIndexOfFirstDay + i % DAYS_IN_A_WEEK) % DAYS_IN_A_WEEK;
+        const weekIndex = getWeekIndex(i, lengthOfFirstWeek);
+        monthArray[weekIndex][weekDayIndex] = i + 1;
     }
-    return month;
+
+    return monthArray;
 }
 
 export const isLeapYear = (year) => {
@@ -80,7 +79,9 @@ export const populateYear = (year) => {
             return newMonthsArray;
         } else {
             const previousMonth = newMonthsArray[index - 1];
-            const lengthOfLastWeekOfPreviousMonth = previousMonth[previousMonth.length - 1].length;
+            const lastWeekOfPreviousMonth = previousMonth[previousMonth.length - 1];
+            const lastWeekOfPreviousMonthWithoutEmptyStrings = lastWeekOfPreviousMonth.filter(day => day);
+            const lengthOfLastWeekOfPreviousMonth = lastWeekOfPreviousMonthWithoutEmptyStrings.length;
             const firstDayOfThisMonth = DAYS[lengthOfLastWeekOfPreviousMonth % DAYS.length];
             newMonthsArray.push(populateMonth(month, firstDayOfThisMonth));
             return newMonthsArray;
