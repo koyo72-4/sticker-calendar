@@ -1,4 +1,5 @@
 export const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYS_IN_A_WEEK = 7;
 const YEAR_TWO_THOUSAND = [2000, 'Saturday'];
 
@@ -75,7 +76,3 @@ export const populateYear = (year) => {
         return newMonthsArray;
     }, []);
 }
-
-export const monthIndexMap = new Map([
-   [1, 'jan'], [2, 'feb'], [3, 'mar'], [4, 'apr'], [5, 'may'], [6, 'jun'], [7, 'jul'], [8, 'aug'], [9, 'sep'], [10, 'oct'], [11, 'nov'], [12, 'dec']
-]);

@@ -6,10 +6,10 @@ import '../css/Month.css';
 export const Month = React.forwardRef((props, ref) => (
     <table
         style={{tableLayout: 'fixed'}}
-        className={`${props.index} opacity0`}
+        className={`${props.monthName} opacity0`}
         ref={ref}
     >
-        <caption>{`Month${props.index}`}</caption>
+        <caption>{props.monthName}</caption>
         <thead>
             <tr>
                 {DAYS.map(day =>
@@ -44,7 +44,7 @@ export const Month = React.forwardRef((props, ref) => (
                                 <Day
                                     key={`td ${week} ${index} ${day}`}
                                     day={day}
-                                    month={props.index}
+                                    monthName={props.monthName}
                                     starred={starred}
                                     stars={starsToDisplay}
                                     handleClick={props.handleClick}

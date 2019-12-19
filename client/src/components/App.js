@@ -2,7 +2,7 @@ import React from 'react';
 import { Month } from './Month';
 import { GoalSelect } from './GoalSelect';
 import YearSwitcher from './YearSwitcher';
-import { populateYear, monthIndexMap } from '../util/months';
+import { populateYear, MONTHS } from '../util/months';
 import StarApi from '../util/starApi';
 import '../css/App.css';
 
@@ -70,7 +70,7 @@ class App extends React.Component {
 		const { year, goal } = this.state;
 		const starDayObject = {
 			year,
-			month: [...monthIndexMap.entries()].find(([key]) => key === month)[1],
+			month,
 			day,
 			stars: [goal]
 		};
@@ -104,20 +104,19 @@ class App extends React.Component {
 				/>
 				{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
 				{populatedYear.map((month, index) => {
-					const monthIndex = index + 1;
+					const monthName = MONTHS[index];
 					const starredDaysInMonth = starredDays.filter(starredDay =>
-						(year === starredDay.year) &&
-						(monthIndexMap.get(monthIndex) === starredDay.month)
+						year === starredDay.year && monthName === starredDay.month
 					);
 
 					return (
 						<Month
 							month={month}
+							monthName={monthName}
 							starredDays={starredDaysInMonth}
 							goal={goal}
 							handleClick={this.handleClick}
-							index={monthIndex}
-							key={monthIndex}
+							key={index}
 							ref={this.monthRefs[`month${index + 1}`]}
 						/>
 					);

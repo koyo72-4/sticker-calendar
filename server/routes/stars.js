@@ -1,7 +1,7 @@
 const express = require('express');
 const Joi = require('@hapi/joi');
 const starDays = require('../seed/stars')();
-import { isLeapYear } from '../../client/src/util/months';
+import { isLeapYear, MONTHS } from '../../client/src/util/months';
 
 const router = express.Router();
 
@@ -122,7 +122,7 @@ router.delete('/:id', (req, res) => {
 function validateStar(star) {
     const schema = Joi.object().keys({
         year: Joi.number().integer().min(1753).max(9999).required(),
-        month: Joi.string().valid('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec').required(),
+        month: Joi.string().valid(...MONTHS).required(),
         day: Joi.number().integer().min(1).max(31).required(),
         stars: Joi.array().items(Joi.string().required()).required()
     });
