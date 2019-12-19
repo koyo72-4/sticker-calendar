@@ -94,19 +94,14 @@ class App extends React.Component {
 		return (
 			<div className="container">
 				<h1>Sticker Calendar</h1>
-				<br/>
 				<GoalSelect
 					goal={goal}
 					handleGoalChange={this.handleGoalChange}
 				/>
-				<br />
-				<br />
 				<YearSwitcher
 					year={year}
 					updateYear={this.updateYear}
 				/>
-				<br/>
-				<br/>
 				{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
 				{populatedYear.map((month, index) => {
 					const monthIndex = index + 1;

@@ -13,3 +13,23 @@
 .caret-right {
     margin-left: 10px;
 }
+
+.y-margin-15 {
+    margin: 15px 0;
+}
+
+.bottom-margin-17 {
+    margin-bottom: 17px;
+}
+
+.right-margin-20 {
+    margin-right: 20px;
+}
+
+.left-padding-3 {
+    padding-left: 3px;
+}
+
+p {
+    margin: 0;
+}

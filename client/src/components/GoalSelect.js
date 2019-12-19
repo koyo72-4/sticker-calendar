@@ -2,7 +2,7 @@ import React from 'react';
 
 export const GoalSelect = ({ goal, handleGoalChange }) => {
     return (
-        <React.Fragment>
+        <div class="y-margin-15">
             <label htmlFor="goal-select">What is your goal? </label>
             <select
                 id="goal-select"
@@ -16,6 +16,6 @@ export const GoalSelect = ({ goal, handleGoalChange }) => {
                 <option value="instrument">Practice a musical instrument</option>
                 <option value="sweets">Avoid sweets</option>
             </select>
-        </React.Fragment>
+        </div>
     );
 };
