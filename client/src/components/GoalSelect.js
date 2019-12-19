@@ -2,7 +2,7 @@ import React from 'react';
 
 export const GoalSelect = ({ goal, handleGoalChange }) => {
     return (
-        <div class="y-margin-15">
+        <div className="y-margin-15">
             <label htmlFor="goal-select">What is your goal? </label>
             <select
                 id="goal-select"

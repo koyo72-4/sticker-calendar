@@ -47,7 +47,7 @@ export default class YearSwitcher extends React.Component {
 
     render() {
         return (
-            <div class="y-margin-15">
+            <div className="y-margin-15">
                 <form ref={this.formRef} className="bottom-margin-17">
                     <label htmlFor="year-input">Year: </label>
                     <input
