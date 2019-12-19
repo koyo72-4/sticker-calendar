@@ -34,35 +34,26 @@ export const isLeapYear = (year) => {
     return year % 4 === 0;
 }
 
+const getNumberOfLeapYearsFrom2000 = numberOfYearsFrom2000 => {
+    let numLeapYears = Math.ceil(numberOfYearsFrom2000 / 4);
+    if (numberOfYearsFrom2000 > -100 && numberOfYearsFrom2000 <= 100) {
+        return numLeapYears;
+    }
+    const hundreds = numberOfYearsFrom2000 > 100 && numberOfYearsFrom2000 % 100 === 0
+        ? Math.floor(numberOfYearsFrom2000 / 100 - 1)
+        : Math.floor(Math.abs(numberOfYearsFrom2000) / 100);
+    const fourHundreds = Math.floor(hundreds / 4);
+    return numLeapYears + (hundreds - fourHundreds) * (numberOfYearsFrom2000 < 0 ? 1 : -1);
+};
+
 export const getStartingDay = (year) => {
     const [exampleYear, exampleStartingDay] = YEAR_TWO_THOUSAND;
-    const exampleIndex = DAYS.indexOf(exampleStartingDay);
-    const difference = year - exampleYear;
-    
-    let numberOfLeapYears = Math.ceil(difference / 4);
-    if (difference > 100) {
-        const hundreds = difference % 100 === 0
-            ? Math.floor(difference / 100) - 1
-            : Math.floor(difference / 100);
-        const fourHundreds = Math.floor(hundreds / 4);
-        numberOfLeapYears -= (hundreds - fourHundreds);
-    } else if (difference <= -100) {
-        const positiveDifference = Math.abs(difference);
-        const hundreds = Math.floor(positiveDifference / 100);
-        const fourHundreds = Math.floor(hundreds / 4);
-        numberOfLeapYears += (hundreds - fourHundreds);
-    }
-
-    const offset = (difference + numberOfLeapYears) % 7;
-
-    let yearIndex;
-    if ((offset < 0) && Math.abs(offset) > exampleIndex) {
-        yearIndex = 7 + (exampleIndex + offset);
-    } else {
-        yearIndex = (exampleIndex + offset) % 7;
-    }
-
-    return DAYS[yearIndex];
+    const exampleWeekDayIndex = getWeekDayIndex(exampleStartingDay);
+    const numberOfYearsDifference = year - exampleYear;
+    const numberOfLeapYears = getNumberOfLeapYearsFrom2000(numberOfYearsDifference);
+    const offset = (numberOfYearsDifference + numberOfLeapYears) % 7;
+    const weekDayIndex = (exampleWeekDayIndex + offset) % 7;
+    return DAYS[weekDayIndex];
 }
 
 export const populateYear = (year) => {
