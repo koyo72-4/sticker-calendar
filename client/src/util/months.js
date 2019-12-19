@@ -58,25 +58,21 @@ export const getStartingDay = (year) => {
 
 export const populateYear = (year) => {
     const monthLengths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
     if (isLeapYear(year)) {
         monthLengths[1] = 29;
     }
 
-    return monthLengths.reduce((newMonthsArray, month, index) => {
+    return monthLengths.reduce((newMonthsArray, daysInMonth, index) => {
+        let firstDayOfThisMonth;
         if (index === 0) {
-            const startingDay = getStartingDay(year);
-            newMonthsArray.push(populateMonth(month, startingDay));
-            return newMonthsArray;
+            firstDayOfThisMonth = getStartingDay(year);
         } else {
             const previousMonth = newMonthsArray[index - 1];
-            const lastWeekOfPreviousMonth = previousMonth[previousMonth.length - 1];
-            const lastWeekOfPreviousMonthWithoutEmptyStrings = lastWeekOfPreviousMonth.filter(day => day);
-            const lengthOfLastWeekOfPreviousMonth = lastWeekOfPreviousMonthWithoutEmptyStrings.length;
-            const firstDayOfThisMonth = DAYS[lengthOfLastWeekOfPreviousMonth % DAYS.length];
-            newMonthsArray.push(populateMonth(month, firstDayOfThisMonth));
-            return newMonthsArray;
+            const lengthOfLastWeekOfPreviousMonth = previousMonth[previousMonth.length - 1].filter(day => day).length;
+            firstDayOfThisMonth = DAYS[lengthOfLastWeekOfPreviousMonth % DAYS_IN_A_WEEK];
         }
+        newMonthsArray.push(populateMonth(daysInMonth, firstDayOfThisMonth));
+        return newMonthsArray;
     }, []);
 }
 
