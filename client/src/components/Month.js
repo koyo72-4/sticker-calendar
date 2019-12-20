@@ -3,13 +3,16 @@ import { Day } from './Day';
 import { DAYS } from '../util/months';
 import '../css/Month.css';
 
-export const Month = React.forwardRef((props, ref) => (
+export const Month = React.forwardRef((
+    { month, monthName, starredDays, goal, handleClick },
+    ref
+) => (
     <table
         style={{tableLayout: 'fixed'}}
-        className={`${props.monthName} opacity0`}
+        className={`${monthName} opacity0`}
         ref={ref}
     >
-        <caption>{props.monthName}</caption>
+        <caption>{monthName}</caption>
         <thead>
             <tr>
                 {DAYS.map(day =>
@@ -18,29 +21,29 @@ export const Month = React.forwardRef((props, ref) => (
             </tr>
         </thead>
         <tbody>
-            {props.month.map((week, index) => {
+            {month.map((week, index) => {
                 return (
                     <tr key={`week${index}`}>
                         {week.map((day, i) => {
                             if (day) {
-                                const starredDay = props.starredDays.find(starredDay => starredDay.day === day);
+                                const starredDay = starredDays.find(starredDay => starredDay.day === day);
                                 const starred = !!starredDay;
                                 let starsToDisplay = [];
                                 if (starred) {
-                                    if (!props.goal) {
+                                    if (!goal) {
                                         starsToDisplay = starredDay.stars;
-                                    } else if (starredDay.stars.includes(props.goal)) {
-                                        starsToDisplay = [props.goal];
+                                    } else if (starredDay.stars.includes(goal)) {
+                                        starsToDisplay = [goal];
                                     }
                                 }
                                 return (
                                     <Day
                                         key={`week${index}day${i}`}
                                         day={day}
-                                        monthName={props.monthName}
+                                        monthName={monthName}
                                         starred={starred}
                                         stars={starsToDisplay}
-                                        handleClick={props.handleClick}
+                                        handleClick={handleClick}
                                     />
                                 );
                             } else {
