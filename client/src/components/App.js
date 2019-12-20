@@ -29,12 +29,12 @@ class App extends React.Component {
 				const opacityClass = Array.from(element.classList).find(cssClass => cssClass.includes('opacity'));
 				const roundedIntersectionRatio = Math.floor(intersectionRatio * 10) / 10;
 				element.classList.replace(opacityClass, `opacity${roundedIntersectionRatio * 100}`);
-				if (roundedIntersectionRatio === 1) {
-					observer.unobserve(element);
-				}
 			};
 			entries.forEach(entry => {
 				changeOpacity(entry.target, entry.intersectionRatio);
+				if (entry.intersectionRatio === 1) {
+					observer.unobserve(entry.target);
+				}
 			});
 		};
 
