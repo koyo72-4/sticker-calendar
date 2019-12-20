@@ -18,31 +18,23 @@ export const Month = React.forwardRef((props, ref) => (
             </tr>
         </thead>
         <tbody>
-            {props.month.map((week, index, month) => {
+            {props.month.map((week, index) => {
                 return (
-                    <tr key={`tr ${month} ${index} ${week}`}>
-                        {week.map((day, index, week) => {
+                    <tr key={`week${index}`}>
+                        {week.map((day, i) => {
                             const starredDay = props.starredDays.find(starredDay => starredDay.day === day);
                             const starred = !!starredDay;
-
-                            let starsToDisplay;
+                            let starsToDisplay = [];
                             if (starred) {
-                                if (props.goal) {
-                                    if (starredDay.stars.includes(props.goal)) {
-                                        starsToDisplay = [props.goal];
-                                    } else {
-                                        starsToDisplay = [];
-                                    }
-                                } else {
+                                if (!props.goal) {
                                     starsToDisplay = starredDay.stars;
+                                } else if (starredDay.stars.includes(props.goal)) {
+                                    starsToDisplay = [props.goal];
                                 }
-                            } else {
-                                starsToDisplay = [];
                             }
-
                             return (
                                 <Day
-                                    key={`td ${week} ${index} ${day}`}
+                                    key={`week${index}day${i}`}
                                     day={day}
                                     monthName={props.monthName}
                                     starred={starred}

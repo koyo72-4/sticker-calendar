@@ -20,7 +20,7 @@ class App extends React.Component {
 		};
 
 		this.monthRefs = this.state.populatedYear.reduce((refsObject, value, index) => {
-			refsObject[`month${index + 1}`] = React.createRef();
+			refsObject[`month${index}`] = React.createRef();
 			return refsObject;
 		}, {});
 
@@ -106,9 +106,8 @@ class App extends React.Component {
 				{populatedYear.map((month, index) => {
 					const monthName = MONTHS[index];
 					const starredDaysInMonth = starredDays.filter(starredDay =>
-						year === starredDay.year && monthName === starredDay.month
+						starredDay.year === year && starredDay.month === monthName
 					);
-
 					return (
 						<Month
 							month={month}
@@ -117,7 +116,7 @@ class App extends React.Component {
 							goal={goal}
 							handleClick={this.handleClick}
 							key={index}
-							ref={this.monthRefs[`month${index + 1}`]}
+							ref={this.monthRefs[`month${index}`]}
 						/>
 					);
 				})}
