@@ -22,26 +22,30 @@ export const Month = React.forwardRef((props, ref) => (
                 return (
                     <tr key={`week${index}`}>
                         {week.map((day, i) => {
-                            const starredDay = props.starredDays.find(starredDay => starredDay.day === day);
-                            const starred = !!starredDay;
-                            let starsToDisplay = [];
-                            if (starred) {
-                                if (!props.goal) {
-                                    starsToDisplay = starredDay.stars;
-                                } else if (starredDay.stars.includes(props.goal)) {
-                                    starsToDisplay = [props.goal];
+                            if (day) {
+                                const starredDay = props.starredDays.find(starredDay => starredDay.day === day);
+                                const starred = !!starredDay;
+                                let starsToDisplay = [];
+                                if (starred) {
+                                    if (!props.goal) {
+                                        starsToDisplay = starredDay.stars;
+                                    } else if (starredDay.stars.includes(props.goal)) {
+                                        starsToDisplay = [props.goal];
+                                    }
                                 }
+                                return (
+                                    <Day
+                                        key={`week${index}day${i}`}
+                                        day={day}
+                                        monthName={props.monthName}
+                                        starred={starred}
+                                        stars={starsToDisplay}
+                                        handleClick={props.handleClick}
+                                    />
+                                );
+                            } else {
+                                return <td key={`week${index}day${i}`}></td>;
                             }
-                            return (
-                                <Day
-                                    key={`week${index}day${i}`}
-                                    day={day}
-                                    monthName={props.monthName}
-                                    starred={starred}
-                                    stars={starsToDisplay}
-                                    handleClick={props.handleClick}
-                                />
-                            );
                         })}
                     </tr>
                 );
