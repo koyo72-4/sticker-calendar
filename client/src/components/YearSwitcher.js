@@ -3,47 +3,37 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 export default class YearSwitcher extends React.Component {
-    constructor(props) {
-        super(props);
+    state = {
+        inputValue: this.props.year
+    };
+    formRef = React.createRef();
 
-        this.state = {
-            inputValue: props.year
-        }
-        
-        this.formRef = React.createRef();
-
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.shiftByOne = this.shiftByOne.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-	handleInputChange({ target: { value } }) {
+	handleInputChange = ({ target: { value } }) => {
 		this.setState({ inputValue: value.trim() });
-    }
+    };
     
-    shiftByOne({ target: { id } }) {
+    shiftByOne = ({ target: { id } }) => {
         const newYear = id === 'previous'
             ? this.props.year - 1
             : this.props.year + 1;
         this.setState({ inputValue: newYear }, () => {
             this.props.updateYear(newYear);
         });
-    }
+    };
 
-    handleSubmit(event) {
+    handleSubmit = event => {
         const formIsValid = this.formRef.current.reportValidity();
         if (formIsValid) {
             event.preventDefault();
             this.props.updateYear(parseInt(this.state.inputValue, 10));
         }
-    }
+    };
     
-    handleKeyPress(event) {
+    handleKeyPress = event => {
 		if (event.charCode === 13) {
 			this.handleSubmit(event);
 		}
-	}
+	};
 
     render() {
         return (
@@ -90,4 +80,4 @@ export default class YearSwitcher extends React.Component {
             </div>
         );
     }
-};
+}
