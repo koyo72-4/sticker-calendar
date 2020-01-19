@@ -6,67 +6,58 @@ import { populateYear, MONTHS } from '../util/months';
 import StarApi from '../util/starApi';
 import '../css/App.css';
 
+const intersectionCallback = (entries, observer) => {
+	const changeOpacity = (element, intersectionRatio) => {
+		const opacityClass = Array.from(element.classList).find(cssClass => cssClass.includes('opacity'));
+		const roundedIntersectionRatio = Math.floor(intersectionRatio * 10) / 10;
+		element.classList.replace(opacityClass, `opacity${roundedIntersectionRatio * 100}`);
+	};
+	entries.forEach(entry => {
+		changeOpacity(entry.target, entry.intersectionRatio);
+		if (entry.intersectionRatio === 1) {
+			observer.unobserve(entry.target);
+		}
+	});
+};
+
 class App extends React.Component {
-	constructor(props) {
-		super(props);
+	currentYear = new Date().getFullYear();
 
-		const currentYear = new Date().getFullYear();
+	state = {
+		year: this.currentYear,
+		populatedYear: populateYear(this.currentYear),
+		goal: '',
+		starredDays: []
+	};
 
-		this.state = {
-			year: currentYear,
-			populatedYear: populateYear(currentYear),
-			goal: '',
-			starredDays: []
-		};
+	monthRefs = this.state.populatedYear.reduce((refsObject, value, index) => {
+		refsObject[`month${index}`] = React.createRef();
+		return refsObject;
+	}, {});
 
-		this.monthRefs = this.state.populatedYear.reduce((refsObject, value, index) => {
-			refsObject[`month${index}`] = React.createRef();
-			return refsObject;
-		}, {});
+	observer = new IntersectionObserver(intersectionCallback, {
+		threshold: new Array(101).fill(0).map((value, index, array) => index / (array.length - 1))
+	});
 
-		const intersectionCallback = (entries, observer) => {
-			const changeOpacity = (element, intersectionRatio) => {
-				const opacityClass = Array.from(element.classList).find(cssClass => cssClass.includes('opacity'));
-				const roundedIntersectionRatio = Math.floor(intersectionRatio * 10) / 10;
-				element.classList.replace(opacityClass, `opacity${roundedIntersectionRatio * 100}`);
-			};
-			entries.forEach(entry => {
-				changeOpacity(entry.target, entry.intersectionRatio);
-				if (entry.intersectionRatio === 1) {
-					observer.unobserve(entry.target);
-				}
-			});
-		};
+	starApi = new StarApi();
 
-		this.observer = new IntersectionObserver(intersectionCallback, {
-			threshold: new Array(101).fill(0).map((value, index, array) => index / (array.length - 1))
-		});
-
-		this.starApi = new StarApi();
-
-		this.getStarredDays = this.getStarredDays.bind(this);
-		this.handleGoalChange = this.handleGoalChange.bind(this);
-		this.handleClick = this.handleClick.bind(this);
-		this.updateYear = this.updateYear.bind(this);
-	}
-
-	getStarredDays() {
+	getStarredDays = () => {
 		this.starApi.getStars(this.state.year)
 			.then(result => {
 				this.setState({ starredDays: result });
 			});
-	}
+	};
 
-	updateYear(year) {
+	updateYear = year => {
 		this.setState({ year, populatedYear: populateYear(year) }, this.getStarredDays);
-	}
+	};
 
-	handleGoalChange({ target: { value }}) {
+	handleGoalChange = ({ target: { value }}) => {
 		this.getStarredDays();
 		this.setState({ goal: value });
-	}
+	};
 
-	handleClick(month, day, alreadyStarred) {
+	handleClick = (month, day, alreadyStarred) => {
 		const { year, goal } = this.state;
 		const starDayObject = {
 			year,
@@ -78,7 +69,7 @@ class App extends React.Component {
 
 		this.starApi[starMethod](starDayObject)
 			.then(this.getStarredDays);
-	}
+	};
 
 	componentDidMount() {
 		this.getStarredDays();
