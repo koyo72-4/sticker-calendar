@@ -1,7 +1,7 @@
 import React from 'react';
 import { Month } from './Month';
 import { GoalSelect } from './GoalSelect';
-import YearSwitcher from './YearSwitcher';
+import { YearSwitcher } from './YearSwitcher';
 import { populateYear, MONTHS } from '../util/months';
 import StarApi from '../util/starApi';
 import '../css/App.css';
@@ -26,6 +26,7 @@ class App extends React.Component {
 	state = {
 		year: this.currentYear,
 		populatedYear: populateYear(this.currentYear),
+		yearInputValue: this.currentYear.toString(),
 		goal: '',
 		starredDays: []
 	};
@@ -34,6 +35,8 @@ class App extends React.Component {
 		refsObject[`month${index}`] = React.createRef();
 		return refsObject;
 	}, {});
+
+	formRef = React.createRef();
 
 	observer = new IntersectionObserver(intersectionCallback, {
 		threshold: new Array(101).fill(0).map((value, index, array) => index / (array.length - 1))
@@ -46,10 +49,6 @@ class App extends React.Component {
 			.then(result => {
 				this.setState({ starredDays: result });
 			});
-	};
-
-	updateYear = year => {
-		this.setState({ year, populatedYear: populateYear(year) }, this.getStarredDays);
 	};
 
 	handleGoalChange = ({ target: { value }}) => {
@@ -71,6 +70,43 @@ class App extends React.Component {
 			.then(this.getStarredDays);
 	};
 
+	updateYear = transform => {
+		this.setState(prevState => {
+			const newYear = transform(prevState);
+			return {
+				year: newYear,
+				populatedYear: populateYear(newYear),
+				yearInputValue: newYear.toString()
+			};
+		}, this.getStarredDays);
+	};
+
+	handleInputChange = ({ target: { value } }) => {
+		this.setState({ yearInputValue: value.trim() });
+	};
+
+	subtractOne = () => {
+		this.updateYear(stateObj => stateObj.year - 1);
+	};
+
+	addOne = () => {
+		this.updateYear(stateObj => stateObj.year + 1);
+	};
+
+	handleSubmit = event => {
+        const formIsValid = this.formRef.current.reportValidity();
+        if (formIsValid) {
+            event.preventDefault();
+            this.updateYear(stateObj => parseInt(stateObj.yearInputValue, 10));
+        }
+	};
+
+	handleKeyPress = event => {
+		if (event.charCode === 13) {
+			this.handleSubmit(event);
+		}
+	};
+
 	componentDidMount() {
 		this.getStarredDays();
 
@@ -80,7 +116,7 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { starredDays, populatedYear, year, goal } = this.state;
+		const { starredDays, populatedYear, year, yearInputValue, goal } = this.state;
 
 		return (
 			<div className="container">
@@ -91,7 +127,14 @@ class App extends React.Component {
 				/>
 				<YearSwitcher
 					year={year}
+					yearInputValue={yearInputValue}
+					handleInputChange={this.handleInputChange}
+					subtractOne={this.subtractOne}
+					addOne={this.addOne}
+					handleSubmit={this.handleSubmit}
+					handleKeyPress={this.handleKeyPress}
 					updateYear={this.updateYear}
+					ref={this.formRef}
 				/>
 				{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
 				{populatedYear.map((month, index) => {
