@@ -34,7 +34,7 @@ export const App = () => {
 	const starApi = new StarApi();
 
 	const observer = new IntersectionObserver(intersectionCallback, {
-		threshold: new Array(101).fill(0).map((value, index, array) => index / (array.length - 1))
+		threshold: [...Array(101)].map((value, index, array) => index / (array.length - 1))
 	});
 
 	const getStarredDays = () => {
@@ -104,44 +104,42 @@ export const App = () => {
 		getStarredDays();
 	}, [year]);
 
-	// render() {
-		return (
-			<div className="container">
-				<h1>Sticker Calendar</h1>
-				<GoalSelect
-					goal={goal}
-					handleGoalChange={handleGoalChange}
-				/>
-				<YearSwitcher
-					year={year}
-					yearInputValue={yearInputValue}
-					handleInputChange={handleInputChange}
-					subtractOne={subtractOne}
-					addOne={addOne}
-					handleSubmit={handleSubmit}
-					handleKeyPress={handleKeyPress}
-					updateYear={updateYear}
-					ref={formRef}
-				/>
-				{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
-				{populatedYear.map((month, index) => {
-					const monthName = MONTHS[index];
-					const starredDaysInMonth = starredDays.filter(starredDay =>
-						starredDay.year === year && starredDay.month === monthName
-					);
-					return (
-						<Month
-							month={month}
-							monthName={monthName}
-							starredDays={starredDaysInMonth}
-							goal={goal}
-							handleClick={handleClick}
-							key={index}
-							ref={monthRefs.current[index]}
-						/>
-					);
-				})}
-			</div>
-		);
-	// }
+	return (
+		<div className="container">
+			<h1>Sticker Calendar</h1>
+			<GoalSelect
+				goal={goal}
+				handleGoalChange={handleGoalChange}
+			/>
+			<YearSwitcher
+				year={year}
+				yearInputValue={yearInputValue}
+				handleInputChange={handleInputChange}
+				subtractOne={subtractOne}
+				addOne={addOne}
+				handleSubmit={handleSubmit}
+				handleKeyPress={handleKeyPress}
+				updateYear={updateYear}
+				ref={formRef}
+			/>
+			{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
+			{populatedYear.map((month, index) => {
+				const monthName = MONTHS[index];
+				const starredDaysInMonth = starredDays.filter(starredDay =>
+					starredDay.year === year && starredDay.month === monthName
+				);
+				return (
+					<Month
+						month={month}
+						monthName={monthName}
+						starredDays={starredDaysInMonth}
+						goal={goal}
+						handleClick={handleClick}
+						key={index}
+						ref={monthRefs.current[index]}
+					/>
+				);
+			})}
+		</div>
+	);
 };
