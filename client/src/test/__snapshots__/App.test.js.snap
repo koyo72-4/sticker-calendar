@@ -1,0 +1,718 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders a calendar 1`] = `
+<div
+  className="container"
+>
+  <h1>
+    Sticker Calendar
+  </h1>
+  <GoalSelect
+    goal=""
+    handleGoalChange={[Function]}
+  />
+  <ForwardRef
+    addOne={[Function]}
+    handleInputChange={[Function]}
+    handleKeyPress={[Function]}
+    handleSubmit={[Function]}
+    subtractOne={[Function]}
+    updateYear={[Function]}
+    year={2020}
+    yearInputValue="2020"
+  />
+  <p>
+    No stars have yet been achieved this year. You can do it!
+  </p>
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="0"
+    month={
+      Array [
+        Array [
+          "",
+          "",
+          "",
+          1,
+          2,
+          3,
+          4,
+        ],
+        Array [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+        ],
+        Array [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+        ],
+        Array [
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+        ],
+        Array [
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          "",
+        ],
+      ]
+    }
+    monthName="January"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="1"
+    month={
+      Array [
+        Array [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          1,
+        ],
+        Array [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        Array [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+        ],
+        Array [
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+        ],
+        Array [
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+        ],
+      ]
+    }
+    monthName="February"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="2"
+    month={
+      Array [
+        Array [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+        ],
+        Array [
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+        ],
+        Array [
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+        ],
+        Array [
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+        ],
+        Array [
+          29,
+          30,
+          31,
+          "",
+          "",
+          "",
+          "",
+        ],
+      ]
+    }
+    monthName="March"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="3"
+    month={
+      Array [
+        Array [
+          "",
+          "",
+          "",
+          1,
+          2,
+          3,
+          4,
+        ],
+        Array [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+        ],
+        Array [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+        ],
+        Array [
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+        ],
+        Array [
+          26,
+          27,
+          28,
+          29,
+          30,
+          "",
+          "",
+        ],
+      ]
+    }
+    monthName="April"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="4"
+    month={
+      Array [
+        Array [
+          "",
+          "",
+          "",
+          "",
+          "",
+          1,
+          2,
+        ],
+        Array [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        Array [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+        ],
+        Array [
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+        ],
+        Array [
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+        ],
+        Array [
+          31,
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+        ],
+      ]
+    }
+    monthName="May"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="5"
+    month={
+      Array [
+        Array [
+          "",
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        Array [
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+        ],
+        Array [
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+        ],
+        Array [
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+        ],
+        Array [
+          28,
+          29,
+          30,
+          "",
+          "",
+          "",
+          "",
+        ],
+      ]
+    }
+    monthName="June"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="6"
+    month={
+      Array [
+        Array [
+          "",
+          "",
+          "",
+          1,
+          2,
+          3,
+          4,
+        ],
+        Array [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+        ],
+        Array [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+        ],
+        Array [
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+        ],
+        Array [
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          "",
+        ],
+      ]
+    }
+    monthName="July"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="7"
+    month={
+      Array [
+        Array [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          1,
+        ],
+        Array [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        Array [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+        ],
+        Array [
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+        ],
+        Array [
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+        ],
+        Array [
+          30,
+          31,
+          "",
+          "",
+          "",
+          "",
+          "",
+        ],
+      ]
+    }
+    monthName="August"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="8"
+    month={
+      Array [
+        Array [
+          "",
+          "",
+          1,
+          2,
+          3,
+          4,
+          5,
+        ],
+        Array [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+        ],
+        Array [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+        ],
+        Array [
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+        ],
+        Array [
+          27,
+          28,
+          29,
+          30,
+          "",
+          "",
+          "",
+        ],
+      ]
+    }
+    monthName="September"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="9"
+    month={
+      Array [
+        Array [
+          "",
+          "",
+          "",
+          "",
+          1,
+          2,
+          3,
+        ],
+        Array [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        Array [
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+        ],
+        Array [
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+        ],
+        Array [
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+        ],
+      ]
+    }
+    monthName="October"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="10"
+    month={
+      Array [
+        Array [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+        ],
+        Array [
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+        ],
+        Array [
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+        ],
+        Array [
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+        ],
+        Array [
+          29,
+          30,
+          "",
+          "",
+          "",
+          "",
+          "",
+        ],
+      ]
+    }
+    monthName="November"
+    starredDays={Array []}
+  />
+  <ForwardRef
+    goal=""
+    handleClick={[Function]}
+    key="11"
+    month={
+      Array [
+        Array [
+          "",
+          "",
+          1,
+          2,
+          3,
+          4,
+          5,
+        ],
+        Array [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+        ],
+        Array [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+        ],
+        Array [
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+        ],
+        Array [
+          27,
+          28,
+          29,
+          30,
+          31,
+          "",
+          "",
+        ],
+      ]
+    }
+    monthName="December"
+    starredDays={Array []}
+  />
+</div>
+`;
