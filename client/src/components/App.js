@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Month } from './Month';
 import { GoalSelect } from './GoalSelect';
+import { GoalCreator } from './GoalCreator';
 import { YearSwitcher } from './YearSwitcher';
 import { populateYear, MONTHS } from '../util/months';
 import StarApi from '../util/starApi';
+import GoalApi from '../util/goalApi';
 import '../css/App.css';
 
 const intersectionCallback = (entries, observer) => {
@@ -26,12 +28,16 @@ export const App = () => {
 	const [ year, setYear ] = useState(currentYear);
 	const [ populatedYear, setPopulatedYear ] = useState(populateYear(currentYear));
 	const [ yearInputValue, setYearInputValue ] = useState(currentYear.toString());
+	const [ goalInputValue, setGoalInputValue ] = useState('');
+	const [ sticker, setSticker ] = useState('star');
 	const [ goal, setGoal ] = useState('');
+	const [ goalsArray, setGoalsArray ] = useState([])
 	const [ starredDays, setStarredDays ] = useState([]);
 
 	const monthRefs = useRef([...Array(12)].map(value => React.createRef()));
 	const formRef = useRef();
 	const starApi = new StarApi();
+	const goalApi = new GoalApi();
 
 	const observer = new IntersectionObserver(intersectionCallback, {
 		threshold: [...Array(101)].map((value, index, array) => index / (array.length - 1))
@@ -68,8 +74,12 @@ export const App = () => {
 		setYearInputValue(newYear.toString());
 	};
 
-	const handleInputChange = ({ target: { value } }) => {
-		setYearInputValue(value.trim());
+	const handleInputChange = ({ target: { id, value } }) => {
+		if (id === 'year-input') {
+			setYearInputValue(value.trim());
+		} else {
+			setGoalInputValue(value.trim());
+		}
 	};
 
 	const subtractOne = () => {
@@ -94,8 +104,28 @@ export const App = () => {
 		}
 	};
 
+	const handleStickerChange = ({ target: { value } }) => {
+		setSticker(value);
+	};
+
+	const saveGoal = (name, sticker) => {
+		const goalObject = {
+			name,
+			sticker
+		};
+		goalApi.createGoal(goalObject)
+			.then(goalApi.getGoals)
+			.then(result => {
+				setGoalsArray(result);
+			});
+	};
+
 	useEffect(() => {
 		getStarredDays();
+		goalApi.getGoals()
+			.then(result => {
+				setGoalsArray(result);
+			});
 
 		monthRefs.current.forEach(month => observer.observe(month.current));
 	}, []);
@@ -107,10 +137,23 @@ export const App = () => {
 	return (
 		<div className="container">
 			<h1>Sticker Calendar</h1>
-			<GoalSelect
-				goal={goal}
-				handleGoalChange={handleGoalChange}
-			/>
+			<div
+				style={{display: "flex", alignItems: "center"}}
+			>
+				<GoalSelect
+					goal={goal}
+					goalsArray={goalsArray}
+					handleGoalChange={handleGoalChange}
+					handleInputChange={handleInputChange}
+				/>
+				<GoalCreator
+					saveGoal={saveGoal}
+					goalInputValue={goalInputValue}
+					sticker={sticker}
+					handleStickerChange={handleStickerChange}
+					handleInputChange={handleInputChange}
+				/>
+			</div>
 			<YearSwitcher
 				year={year}
 				yearInputValue={yearInputValue}

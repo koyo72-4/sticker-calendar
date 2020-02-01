@@ -1,3 +1,8 @@
+label {
+    /* overriding Bootstrap */
+    display: initial;
+}
+
 .container {
     margin: 50px;
 }

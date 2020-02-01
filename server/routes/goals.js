@@ -5,17 +5,17 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     const goals = await Goal.find().sort({ name: 1 });
-    res.send(goals);
+    return res.send(goals);
 });
 
 router.post('/', async (req, res) => {
     const newGoal = new Goal({
         name: req.body.name, 
-        sticker: req.body.sticker
+        sticker: req.body.sticker + '-icon'
     });
 
     await newGoal.save();
-    res.send(newGoal);
+    return res.send(newGoal);
 });
 
 module.exports = router;
