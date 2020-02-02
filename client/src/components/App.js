@@ -64,11 +64,9 @@ export const App = () => {
 			day,
 			goal
 		};
-		// const starMethod = alreadyStarred ? 'addStar' : 'createStarDay';
+		const starMethod = alreadyStarred ? 'addStar' : 'createStarDay';
 
-		// starApi[starMethod](starDayObject)
-		// 	.then(getStarredDays);
-		dayApi.createStar(starDayObject)
+		dayApi[starMethod](starDayObject)
 			.then(getStarredDays);
 	};
 
