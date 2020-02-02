@@ -26,7 +26,7 @@ const daySchema = new mongoose.Schema({
         enum: MONTHS,
         required: true
     },
-    yearNumber: {
+    year: {
         type: Number,
         required: true
     },
@@ -40,21 +40,5 @@ const daySchema = new mongoose.Schema({
     ]
 });
 
-const yearSchema = new mongoose.Schema({
-    yearNumber: {
-        type: Number,
-        required: true
-    },
-    days: [ 
-        {
-            _id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Day'
-            }
-        }
-    ]
-});
-
 exports.Goal = mongoose.model('Goal', goalSchema);
 exports.Day = mongoose.model('Day', daySchema);
-exports.Year = mongoose.model('Year', yearSchema);

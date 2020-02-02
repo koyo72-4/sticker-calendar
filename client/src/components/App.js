@@ -6,6 +6,7 @@ import { YearSwitcher } from './YearSwitcher';
 import { populateYear, MONTHS } from '../util/months';
 import StarApi from '../util/starApi';
 import GoalApi from '../util/goalApi';
+import DayApi from '../util/dayApi';
 import '../css/App.css';
 
 const intersectionCallback = (entries, observer) => {
@@ -38,13 +39,14 @@ export const App = () => {
 	const formRef = useRef();
 	const starApi = new StarApi();
 	const goalApi = new GoalApi();
+	const dayApi = new DayApi();
 
 	const observer = new IntersectionObserver(intersectionCallback, {
 		threshold: [...Array(101)].map((value, index, array) => index / (array.length - 1))
 	});
 
 	const getStarredDays = () => {
-		starApi.getStars(year)
+		dayApi.getDays(year)
 			.then(result => {
 				setStarredDays(result);
 			});
@@ -60,11 +62,13 @@ export const App = () => {
 			year,
 			month,
 			day,
-			stars: [goal]
+			goal
 		};
-		const starMethod = alreadyStarred ? 'addStar' : 'createStarDay';
+		// const starMethod = alreadyStarred ? 'addStar' : 'createStarDay';
 
-		starApi[starMethod](starDayObject)
+		// starApi[starMethod](starDayObject)
+		// 	.then(getStarredDays);
+		dayApi.createStar(starDayObject)
 			.then(getStarredDays);
 	};
 

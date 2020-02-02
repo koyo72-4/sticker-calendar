@@ -7,10 +7,28 @@ exports[`App renders a calendar 1`] = `
   <h1>
     Sticker Calendar
   </h1>
-  <GoalSelect
-    goal=""
-    handleGoalChange={[Function]}
-  />
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+      }
+    }
+  >
+    <GoalSelect
+      goal=""
+      goalsArray={Array []}
+      handleGoalChange={[Function]}
+      handleInputChange={[Function]}
+    />
+    <GoalCreator
+      goalInputValue=""
+      handleInputChange={[Function]}
+      handleStickerChange={[Function]}
+      saveGoal={[Function]}
+      sticker="star"
+    />
+  </div>
   <ForwardRef
     addOne={[Function]}
     handleInputChange={[Function]}

@@ -8,7 +8,9 @@ export const Day = ({ day, monthName, starred, stars, handleClick }) => (
             onClick={() => handleClick(monthName, day, starred)}
         >
             {day}
-            {starred && <span className="star">{stars.join(', ')}</span>}
+            {(stars && stars.length > 0) && <span className="star">
+                {stars.map(star => star._id.sticker.substring(0, star._id.sticker.length - 5)).join(', ')}
+            </span>}
         </button>
     </td>
 );

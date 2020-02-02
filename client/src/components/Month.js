@@ -26,14 +26,17 @@ export const Month = React.forwardRef((
                     <tr key={`week${index}`}>
                         {week.map((day, i) => {
                             if (day) {
-                                const starredDay = starredDays.find(starredDay => starredDay.day === day);
+                                const starredDay = starredDays.find(starredDay => starredDay.dayNumber === day);
                                 const starred = !!starredDay;
                                 let starsToDisplay = [];
                                 if (starred) {
                                     if (!goal) {
                                         starsToDisplay = starredDay.stars;
-                                    } else if (starredDay.stars.includes(goal)) {
-                                        starsToDisplay = [goal];
+                                    } else {
+                                        const goalToDisplay = starredDay.stars.find(star => star._id.name === goal);
+                                        if (goalToDisplay) {
+                                            starsToDisplay = [goalToDisplay];
+                                        }
                                     }
                                 }
                                 return (
