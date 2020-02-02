@@ -4,7 +4,6 @@ import { GoalSelect } from './GoalSelect';
 import { GoalCreator } from './GoalCreator';
 import { YearSwitcher } from './YearSwitcher';
 import { populateYear, MONTHS } from '../util/months';
-import StarApi from '../util/starApi';
 import GoalApi from '../util/goalApi';
 import DayApi from '../util/dayApi';
 import '../css/App.css';
@@ -37,7 +36,6 @@ export const App = () => {
 
 	const monthRefs = useRef([...Array(12)].map(value => React.createRef()));
 	const formRef = useRef();
-	const starApi = new StarApi();
 	const goalApi = new GoalApi();
 	const dayApi = new DayApi();
 
@@ -64,7 +62,7 @@ export const App = () => {
 			day,
 			goal
 		};
-		const starMethod = alreadyStarred ? 'addStar' : 'createStarDay';
+		const starMethod = alreadyStarred ? 'addStarToDay' : 'createStarDay';
 
 		dayApi[starMethod](starDayObject)
 			.then(getStarredDays);

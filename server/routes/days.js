@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
     return res.send(newDay);
 });
 
-router.post('/:year/:month/:day', async (req, res) => {
+router.put('/:year/:month/:day', async (req, res) => {
     const day = await Day.findOne({
         year: req.params.year,
         month: req.params.month,

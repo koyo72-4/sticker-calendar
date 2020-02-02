@@ -14,10 +14,10 @@ export default class DayApi {
             .then(response => response.json());
     }
 
-    async addStar(starDayObject) {
+    async addStarToDay(starDayObject) {
         const { year, month, day, goal } = starDayObject;
         return fetch(`/api/days/${year}/${month}/${day}`, {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify({ goal }),
             headers: {'Content-Type': 'application/json'}
         })
