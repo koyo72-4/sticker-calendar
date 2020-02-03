@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { stickerMap } from '../util/stickers';
+import '../css/App.css';
 
 export const GoalCreator = ({ saveGoal, goalInputValue, handleInputChange, sticker, handleStickerChange }) => {
     const [show, setShow] = useState(false);
@@ -41,12 +43,9 @@ export const GoalCreator = ({ saveGoal, goalInputValue, handleInputChange, stick
                             name="sticker"
                             value={sticker}
                             onChange={handleStickerChange}
+                            className="select-fontawesome"
                         >
-                            <option value="star">star</option>
-                            <option value="weight">weight</option>
-                            <option value="book">book</option>
-                            <option value="trumpet">trumpet</option>
-                            <option value="candy">candy</option>
+                            {Object.values(stickerMap).map(([faComponent, option]) => option)}
                         </select>
                     </div>
                 </Modal.Body>

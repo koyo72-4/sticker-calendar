@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const newGoal = new Goal({
         name: req.body.name, 
-        sticker: req.body.sticker + '-icon'
+        sticker: req.body.sticker
     });
 
     await newGoal.save();

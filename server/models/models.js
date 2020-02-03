@@ -10,7 +10,7 @@ const goalSchema = new mongoose.Schema({
     },
     sticker: {
         type: String,
-        default: 'star-icon'
+        default: 'star'
     }
 });
 

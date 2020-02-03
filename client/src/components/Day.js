@@ -1,4 +1,5 @@
 import React from 'react';
+import { stickerMap } from '../util/stickers';
 import '../css/Day.css';
 
 export const Day = ({ day, monthName, starred, stars, handleClick }) => (
@@ -8,9 +9,14 @@ export const Day = ({ day, monthName, starred, stars, handleClick }) => (
             onClick={() => handleClick(monthName, day, starred)}
         >
             {day}
-            {(stars && stars.length > 0) && <span className="star">
-                {stars.map(star => star._id.sticker.substring(0, star._id.sticker.length - 5)).join(', ')}
-            </span>}
+            {(stars && stars.length > 0) &&
+                stars.map(star => (
+                    <span className="star">
+                        {stickerMap[star._id.sticker][0]}
+                        <span className="sr-only">{star._id.sticker}</span>
+                    </span>
+                ))
+            }
         </button>
     </td>
 );
