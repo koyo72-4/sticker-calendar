@@ -23,4 +23,13 @@ export default class DayApi {
         })
             .then(response => response.json());
     }
+
+    async addStars(starDayObject) {
+        return fetch('/api/days/today', {
+			method: 'POST',
+			body: JSON.stringify(starDayObject),
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(response => response.json());
+    }
 }

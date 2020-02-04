@@ -8,40 +8,55 @@ exports[`App renders a calendar 1`] = `
     Sticker Calendar
   </h1>
   <div
-    style={
-      Object {
-        "alignItems": "center",
-        "display": "flex",
-      }
-    }
+    className="display-flex"
   >
-    <GoalSelect
-      goal=""
-      goalsArray={Array []}
-      handleGoalChange={[Function]}
-      handleInputChange={[Function]}
-    />
-    <GoalCreator
-      goalInputValue=""
-      handleInputChange={[Function]}
-      handleStickerChange={[Function]}
-      saveGoal={[Function]}
-      sticker="star"
-    />
+    <div>
+      <div
+        className="display-flex align-items-center"
+      >
+        <GoalSelect
+          goal=""
+          goalsArray={Array []}
+          handleGoalChange={[Function]}
+          handleInputChange={[Function]}
+        />
+        <GoalCreator
+          goalInputValue=""
+          handleInputChange={[Function]}
+          handleStickerChange={[Function]}
+          saveGoal={[Function]}
+          sticker="star"
+        />
+      </div>
+      <ForwardRef
+        addOne={[Function]}
+        handleInputChange={[Function]}
+        handleKeyPress={[Function]}
+        handleSubmit={[Function]}
+        subtractOne={[Function]}
+        updateYear={[Function]}
+        year={2020}
+        yearInputValue="2020"
+      />
+      <p>
+        No stars have yet been achieved this year. You can do it!
+      </p>
+    </div>
+    <div
+      style={
+        Object {
+          "marginLeft": "50px",
+        }
+      }
+    >
+      <TodaysStars
+        checkedArray={Array []}
+        goalsArray={Array []}
+        handleTodayChange={[Function]}
+        handleTodaySubmit={[Function]}
+      />
+    </div>
   </div>
-  <ForwardRef
-    addOne={[Function]}
-    handleInputChange={[Function]}
-    handleKeyPress={[Function]}
-    handleSubmit={[Function]}
-    subtractOne={[Function]}
-    updateYear={[Function]}
-    year={2020}
-    yearInputValue="2020"
-  />
-  <p>
-    No stars have yet been achieved this year. You can do it!
-  </p>
   <ForwardRef
     goal=""
     handleClick={[Function]}

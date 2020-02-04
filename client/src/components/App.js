@@ -3,6 +3,7 @@ import { Month } from './Month';
 import { GoalSelect } from './GoalSelect';
 import { GoalCreator } from './GoalCreator';
 import { YearSwitcher } from './YearSwitcher';
+import { TodaysStars } from './TodaysStars';
 import { populateYear, MONTHS } from '../util/months';
 import GoalApi from '../util/goalApi';
 import DayApi from '../util/dayApi';
@@ -31,7 +32,8 @@ export const App = () => {
 	const [ goalInputValue, setGoalInputValue ] = useState('');
 	const [ sticker, setSticker ] = useState('star');
 	const [ goal, setGoal ] = useState('');
-	const [ goalsArray, setGoalsArray ] = useState([])
+	const [ goalsArray, setGoalsArray ] = useState([]);
+	const [ checkedArray, setCheckedArray ] = useState([]);
 	const [ starredDays, setStarredDays ] = useState([]);
 
 	const monthRefs = useRef([...Array(12)].map(value => React.createRef()));
@@ -104,6 +106,29 @@ export const App = () => {
 		}
 	};
 
+	const handleTodaySubmit = event => {
+		event.preventDefault();
+		const today = new Date();
+
+		const starDayObject = {
+			year,
+			month: MONTHS[today.getMonth()],
+			day: today.getDate(),
+			goals: checkedArray
+		};
+
+		dayApi.addStars(starDayObject)
+			.then(getStarredDays);
+	};
+
+	const handleTodayChange = ({ target: { name } }) => {
+		if (checkedArray.includes(name)) {
+			setCheckedArray(checkedArray.filter(item => item !== name));
+		} else {
+			setCheckedArray([...checkedArray, name]);
+		}
+	};
+
 	const handleStickerChange = ({ target: { value } }) => {
 		setSticker(value);
 	};
@@ -137,35 +162,45 @@ export const App = () => {
 	return (
 		<div className="container">
 			<h1>Sticker Calendar</h1>
-			<div
-				style={{display: "flex", alignItems: "center"}}
-			>
-				<GoalSelect
-					goal={goal}
-					goalsArray={goalsArray}
-					handleGoalChange={handleGoalChange}
-					handleInputChange={handleInputChange}
-				/>
-				<GoalCreator
-					saveGoal={saveGoal}
-					goalInputValue={goalInputValue}
-					sticker={sticker}
-					handleStickerChange={handleStickerChange}
-					handleInputChange={handleInputChange}
-				/>
+			<div className="display-flex">
+				<div>
+					<div className="display-flex align-items-center">
+						<GoalSelect
+							goal={goal}
+							goalsArray={goalsArray}
+							handleGoalChange={handleGoalChange}
+							handleInputChange={handleInputChange}
+						/>
+						<GoalCreator
+							saveGoal={saveGoal}
+							goalInputValue={goalInputValue}
+							sticker={sticker}
+							handleStickerChange={handleStickerChange}
+							handleInputChange={handleInputChange}
+						/>
+					</div>
+					<YearSwitcher
+						year={year}
+						yearInputValue={yearInputValue}
+						handleInputChange={handleInputChange}
+						subtractOne={subtractOne}
+						addOne={addOne}
+						handleSubmit={handleSubmit}
+						handleKeyPress={handleKeyPress}
+						updateYear={updateYear}
+						ref={formRef}
+					/>
+					{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
+				</div>
+				<div style={{marginLeft: "50px"}}>
+					<TodaysStars
+						goalsArray={goalsArray}
+						checkedArray={checkedArray}
+						handleTodayChange={handleTodayChange}
+						handleTodaySubmit={handleTodaySubmit}
+					/>
+				</div>
 			</div>
-			<YearSwitcher
-				year={year}
-				yearInputValue={yearInputValue}
-				handleInputChange={handleInputChange}
-				subtractOne={subtractOne}
-				addOne={addOne}
-				handleSubmit={handleSubmit}
-				handleKeyPress={handleKeyPress}
-				updateYear={updateYear}
-				ref={formRef}
-			/>
-			{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
 			{populatedYear.map((month, index) => {
 				const monthName = MONTHS[index];
 				const starredDaysInMonth = starredDays.filter(starredDay =>
