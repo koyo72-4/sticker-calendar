@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import { Month } from './Month';
 import { GoalSelect } from './GoalSelect';
 import { GoalCreator } from './GoalCreator';
@@ -35,6 +36,7 @@ export const App = () => {
 	const [ goalsArray, setGoalsArray ] = useState([]);
 	const [ checkedArray, setCheckedArray ] = useState([]);
 	const [ starredDays, setStarredDays ] = useState([]);
+	const [ showTodayAlert, setShowTodayAlert ] = useState(false);
 
 	const monthRefs = useRef([...Array(12)].map(value => React.createRef()));
 	const formRef = useRef();
@@ -118,7 +120,8 @@ export const App = () => {
 		};
 
 		dayApi.addStars(starDayObject)
-			.then(getStarredDays);
+			.then(getStarredDays)
+			.then(() => setShowTodayAlert(true));
 
 		setCheckedArray([]);
 	};
@@ -163,6 +166,12 @@ export const App = () => {
 
 	return (
 		<div className="container">
+			{showTodayAlert &&
+				<Alert variant="success" onClose={() => setShowTodayAlert(false)} dismissible>
+					<Alert.Heading>Nice work!</Alert.Heading>
+					<p>Your calendar has been updated to show what you achieved today.</p>
+				</Alert>
+			}
 			<h1>Sticker Calendar</h1>
 			<div className="display-flex">
 				<div>
