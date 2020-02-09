@@ -119,6 +119,8 @@ export const App = () => {
 
 		dayApi.addStars(starDayObject)
 			.then(getStarredDays);
+
+		setCheckedArray([]);
 	};
 
 	const handleTodayChange = ({ target: { name } }) => {
