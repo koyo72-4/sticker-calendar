@@ -28,6 +28,10 @@ exports[`App renders a calendar 1`] = `
           sticker="star"
         />
       </div>
+      <GoalEditor
+        goalsArray={Array []}
+        handleEditGoals={[Function]}
+      />
       <ForwardRef
         addOne={[Function]}
         handleInputChange={[Function]}

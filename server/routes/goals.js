@@ -18,4 +18,14 @@ router.post('/', async (req, res) => {
     return res.send(newGoal);
 });
 
+router.delete('/', async (req, res) => {
+    const goalsToDelete = req.body.goals;
+    const result = await Goal.deleteMany({
+        'name': {
+            $in: goalsToDelete
+        }
+    });
+    return res.send(result);
+});
+
 module.exports = router;

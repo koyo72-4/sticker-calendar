@@ -3,6 +3,7 @@ import Alert from 'react-bootstrap/Alert';
 import { Month } from './Month';
 import { GoalSelect } from './GoalSelect';
 import { GoalCreator } from './GoalCreator';
+import { GoalEditor } from './GoalEditor';
 import { YearSwitcher } from './YearSwitcher';
 import { TodaysStars } from './TodaysStars';
 import { populateYear, MONTHS } from '../util/months';
@@ -150,6 +151,14 @@ export const App = () => {
 			});
 	};
 
+	const handleEditGoals = goalsToKeep => {
+		const goalsToDelete = goalsArray.filter(goal => !goalsToKeep.includes(goal)).map(({ name }) => name);
+		goalApi.deleteGoals(goalsToDelete)
+			.then(getStarredDays)
+			.then(goalApi.getGoals)
+			.then(setGoalsArray);
+	};
+
 	useEffect(() => {
 		getStarredDays();
 		goalApi.getGoals()
@@ -190,6 +199,10 @@ export const App = () => {
 							handleInputChange={handleInputChange}
 						/>
 					</div>
+					<GoalEditor
+						goalsArray={goalsArray}
+						handleEditGoals={handleEditGoals}
+					/>
 					<YearSwitcher
 						year={year}
 						yearInputValue={yearInputValue}

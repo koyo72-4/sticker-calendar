@@ -32,4 +32,13 @@ export default class DayApi {
         })
             .then(response => response.json());
     }
+
+    async removeStars(goals) {
+        return fetch('/api/days', {
+			method: 'PUT',
+			body: JSON.stringify({ goals }),
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(response => response.json());
+    }
 }

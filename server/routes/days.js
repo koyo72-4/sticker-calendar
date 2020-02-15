@@ -70,4 +70,27 @@ router.put('/:year/:month/:day', async (req, res) => {
     return res.send(day);
 });
 
+router.put('/', async (req, res) => {
+    const deletedGoals = await Goal.find({
+        'name': {
+            $in: req.body.goals
+        }
+    });
+    const deletedGoalsIds = deletedGoals.map(({ _id }) => _id);
+    const days = await Day.find({
+        'stars._id': {
+            $in: deletedGoalsIds
+        }
+    });
+    await days.forEach(async day => {
+        const filteredStars = day.stars.filter(({ _id }) => !deletedGoalsIds.some(id => id.equals(_id)));
+        day.stars = filteredStars;
+        await day.save();
+        if (day.stars.length === 0) {
+            await Day.deleteOne({ _id: day._id });
+        }
+    });
+    return res.send(days);
+});
+
 module.exports = router;
