@@ -55,6 +55,11 @@ export const App = () => {
 			});
 	};
 
+	const getGoals = () => {
+		goalApi.getGoals()
+			.then(setGoalsArray);
+	};
+
 	const handleGoalChange = ({ target: { value }}) => {
 		getStarredDays();
 		setGoal(value);
@@ -145,10 +150,7 @@ export const App = () => {
 			sticker
 		};
 		goalApi.createGoal(goalObject)
-			.then(goalApi.getGoals)
-			.then(result => {
-				setGoalsArray(result);
-			});
+			.then(getGoals);
 	};
 
 	const handleEditGoals = goalsToKeep => {
@@ -162,44 +164,32 @@ export const App = () => {
 
 		const goalsToDelete = goalsArray
 			.filter(({ name }) => {
-				return goalsToKeep.find(goal => {
-					return goal.name === name
-				}) === undefined
+				return goalsToKeep.find(goal => goal.name === name) === undefined
 			})
 			.map(({ name }) => name);
 
 		if (goalsToDelete.length && goalsToChange.length) {
 			goalApi.deleteGoals(goalsToDelete)
 				.then(() => goalApi.updateGoals(goalsToChange))
-				.then(getStarredDays)
-				.then(goalApi.getGoals)
-				.then(setGoalsArray);
+				.then(getGoals);
 		} else if (goalsToDelete.length) {
 			goalApi.deleteGoals(goalsToDelete)
-				.then(getStarredDays)
-				.then(goalApi.getGoals)
-				.then(setGoalsArray);
+				.then(getGoals);
 		} else if (goalsToChange.length) {
 			goalApi.updateGoals(goalsToChange)
-				.then(getStarredDays)
-				.then(goalApi.getGoals)
-				.then(setGoalsArray);
+				.then(getGoals);
 		}
 	};
 
 	useEffect(() => {
 		getStarredDays();
-		goalApi.getGoals()
-			.then(result => {
-				setGoalsArray(result);
-			});
-
+		getGoals();
 		monthRefs.current.forEach(month => observer.observe(month.current));
 	}, []);
 
 	useEffect(() => {
 		getStarredDays();
-	}, [year]);
+	}, [year, goalsArray]);
 
 	return (
 		<div className="container">
