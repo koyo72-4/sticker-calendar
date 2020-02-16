@@ -152,11 +152,39 @@ export const App = () => {
 	};
 
 	const handleEditGoals = goalsToKeep => {
-		const goalsToDelete = goalsArray.filter(goal => !goalsToKeep.includes(goal)).map(({ name }) => name);
-		goalApi.deleteGoals(goalsToDelete)
-			.then(getStarredDays)
-			.then(goalApi.getGoals)
-			.then(setGoalsArray);
+		const goalsToChange = goalsToKeep.reduce((newArray, goal) => {
+			const originalGoal = goalsArray.find(({ name }) => name === goal.name);
+			if (originalGoal && originalGoal.sticker !== goal.sticker) {
+				newArray.push(goal);
+			}
+			return newArray;
+		}, []);
+
+		const goalsToDelete = goalsArray
+			.filter(({ name }) => {
+				return goalsToKeep.find(goal => {
+					return goal.name === name
+				}) === undefined
+			})
+			.map(({ name }) => name);
+
+		if (goalsToDelete.length && goalsToChange.length) {
+			goalApi.deleteGoals(goalsToDelete)
+				.then(() => goalApi.updateGoals(goalsToChange))
+				.then(getStarredDays)
+				.then(goalApi.getGoals)
+				.then(setGoalsArray);
+		} else if (goalsToDelete.length) {
+			goalApi.deleteGoals(goalsToDelete)
+				.then(getStarredDays)
+				.then(goalApi.getGoals)
+				.then(setGoalsArray);
+		} else if (goalsToChange.length) {
+			goalApi.updateGoals(goalsToChange)
+				.then(getStarredDays)
+				.then(goalApi.getGoals)
+				.then(setGoalsArray);
+		}
 	};
 
 	useEffect(() => {

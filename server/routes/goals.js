@@ -28,4 +28,14 @@ router.delete('/', async (req, res) => {
     return res.send(result);
 });
 
+router.put('/', async (req, res) => {
+    const goalsToChange = req.body.goals;
+    goalsToChange.forEach(async goal => {
+        const originalGoal = await Goal.findByIdAndUpdate(goal._id, {
+            sticker: goal.sticker
+        });
+    });
+    return res.send(goalsToChange);
+});
+
 module.exports = router;

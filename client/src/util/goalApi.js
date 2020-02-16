@@ -26,4 +26,13 @@ export default class GoalApi {
                     .then(response => response.json());
             });
     }
+
+    async updateGoals(goals) {
+        return fetch('/api/goals', {
+			method: 'PUT',
+			body: JSON.stringify({ goals }),
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(response => response.json());
+    }
 }
