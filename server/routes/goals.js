@@ -31,7 +31,7 @@ router.delete('/', async (req, res) => {
 router.put('/', async (req, res) => {
     const goalsToChange = req.body.goals;
     goalsToChange.forEach(async goal => {
-        const originalGoal = await Goal.findByIdAndUpdate(goal._id, {
+        await Goal.findByIdAndUpdate(goal._id, {
             sticker: goal.sticker
         });
     });
