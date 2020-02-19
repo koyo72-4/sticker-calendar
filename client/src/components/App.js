@@ -25,6 +25,16 @@ const intersectionCallback = (entries, observer) => {
 	});
 };
 
+function useFormField(initialValue) {
+	const [ value, setValue ] = useState(initialValue);
+	return {
+		value,
+		handleChange: ({ target: { value } }) => {
+			setValue(value);
+		}
+	};
+}
+
 export const App = () => {
 	const currentYear = new Date().getFullYear();
 
@@ -32,12 +42,13 @@ export const App = () => {
 	const [ populatedYear, setPopulatedYear ] = useState(populateYear(currentYear));
 	const [ yearInputValue, setYearInputValue ] = useState(currentYear.toString());
 	const [ goalInputValue, setGoalInputValue ] = useState('');
-	const [ sticker, setSticker ] = useState('star');
-	const [ goal, setGoal ] = useState('');
 	const [ goalsArray, setGoalsArray ] = useState([]);
 	const [ checkedArray, setCheckedArray ] = useState([]);
 	const [ starredDays, setStarredDays ] = useState([]);
 	const [ showTodayAlert, setShowTodayAlert ] = useState(false);
+
+	const goal = useFormField('');
+	const sticker = useFormField('star');
 
 	const monthRefs = useRef([...Array(12)].map(value => React.createRef()));
 	const formRef = useRef();
@@ -60,17 +71,12 @@ export const App = () => {
 			.then(setGoalsArray);
 	};
 
-	const handleGoalChange = ({ target: { value }}) => {
-		getStarredDays();
-		setGoal(value);
-	};
-
 	const handleClick = (month, day, alreadyStarred) => {
 		const starDayObject = {
 			year,
 			month,
 			day,
-			goal
+			goal: goal.value
 		};
 		const starMethod = alreadyStarred ? 'addStarToDay' : 'createStarDay';
 
@@ -140,10 +146,6 @@ export const App = () => {
 		}
 	};
 
-	const handleStickerChange = ({ target: { value } }) => {
-		setSticker(value);
-	};
-
 	const saveGoal = (name, sticker) => {
 		const goalObject = {
 			name,
@@ -198,17 +200,17 @@ export const App = () => {
 				<div>
 					<div className="display-flex align-items-center">
 						<GoalSelect
-							goal={goal}
 							goalsArray={goalsArray}
-							handleGoalChange={handleGoalChange}
 							handleInputChange={handleInputChange}
+							goal={goal.value}
+							handleGoalChange={goal.handleChange}
 						/>
 						<GoalCreator
 							saveGoal={saveGoal}
 							goalInputValue={goalInputValue}
-							sticker={sticker}
-							handleStickerChange={handleStickerChange}
 							handleInputChange={handleInputChange}
+							sticker={sticker.value}
+							handleStickerChange={sticker.handleChange}
 						/>
 					</div>
 					<GoalEditor
@@ -247,7 +249,7 @@ export const App = () => {
 						month={month}
 						monthName={monthName}
 						starredDays={starredDaysInMonth}
-						goal={goal}
+						goal={goal.value}
 						handleClick={handleClick}
 						key={index}
 						ref={monthRefs.current[index]}
