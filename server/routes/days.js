@@ -71,23 +71,19 @@ router.put('/:year/:month/:day', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-    const deletedGoals = await Goal.find({
-        'name': {
-            $in: req.body.goals
-        }
-    });
-    const deletedGoalsIds = deletedGoals.map(({ _id }) => _id);
+    const goalIdsToDelete = req.body.goals.map(({ _id }) => _id);
     const days = await Day.find({
         'stars._id': {
-            $in: deletedGoalsIds
+            $in: goalIdsToDelete
         }
     });
     await days.forEach(async day => {
-        const filteredStars = day.stars.filter(({ _id }) => !deletedGoalsIds.some(id => id.equals(_id)));
-        day.stars = filteredStars;
-        await day.save();
-        if (day.stars.length === 0) {
-            await Day.deleteOne({ _id: day._id });
+        const filteredStars = day.stars.filter(({ _id }) => !goalIdsToDelete.some(id => _id.equals(id)));
+        if (filteredStars.length === 0) {
+            await Day.findByIdAndDelete(day._id);
+        } else {
+            day.stars = filteredStars;
+            await day.save();
         }
     });
     return res.send(days);

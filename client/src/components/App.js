@@ -154,19 +154,13 @@ export const App = () => {
 	};
 
 	const handleEditGoals = goalsToKeep => {
-		const goalsToChange = goalsToKeep.reduce((newArray, goal) => {
+		const goalsToChange = goalsToKeep.filter(goal => {
 			const originalGoal = goalsArray.find(({ name }) => name === goal.name);
-			if (originalGoal && originalGoal.sticker !== goal.sticker) {
-				newArray.push(goal);
-			}
-			return newArray;
-		}, []);
+			return originalGoal && originalGoal.sticker !== goal.sticker;
+		});
 
-		const goalsToDelete = goalsArray
-			.filter(({ name }) => {
-				return goalsToKeep.find(goal => goal.name === name) === undefined
-			})
-			.map(({ name }) => name);
+		const goalsToDelete = goalsArray.filter(({ name }) =>
+			!goalsToKeep.some(goal => goal.name === name));
 
 		if (goalsToDelete.length && goalsToChange.length) {
 			goalApi.deleteGoals(goalsToDelete)

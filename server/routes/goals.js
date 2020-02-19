@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
 });
 
 router.delete('/', async (req, res) => {
-    const goalsToDelete = req.body.goals;
+    const goalsToDelete = req.body.goals.map(({ name }) => name);
     const result = await Goal.deleteMany({
         'name': {
             $in: goalsToDelete
@@ -29,13 +29,12 @@ router.delete('/', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-    const goalsToChange = req.body.goals;
-    goalsToChange.forEach(async goal => {
+    req.body.goals.forEach(async goal => {
         await Goal.findByIdAndUpdate(goal._id, {
             sticker: goal.sticker
         });
     });
-    return res.send(goalsToChange);
+    return res.send(req.body.goals);
 });
 
 module.exports = router;
