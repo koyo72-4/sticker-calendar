@@ -41,7 +41,6 @@ export const App = () => {
 	const [ year, setYear ] = useState(currentYear);
 	const [ populatedYear, setPopulatedYear ] = useState(populateYear(currentYear));
 	const [ yearInputValue, setYearInputValue ] = useState(currentYear.toString());
-	const [ goalInputValue, setGoalInputValue ] = useState('');
 	const [ goalsArray, setGoalsArray ] = useState([]);
 	const [ checkedArray, setCheckedArray ] = useState([]);
 	const [ starredDays, setStarredDays ] = useState([]);
@@ -49,6 +48,7 @@ export const App = () => {
 
 	const goal = useFormField('');
 	const sticker = useFormField('star');
+	const goalInput = useFormField('');
 
 	const monthRefs = useRef([...Array(12)].map(value => React.createRef()));
 	const formRef = useRef();
@@ -90,12 +90,8 @@ export const App = () => {
 		setYearInputValue(newYear.toString());
 	};
 
-	const handleInputChange = ({ target: { id, value } }) => {
-		if (id === 'year-input') {
-			setYearInputValue(value.trim());
-		} else {
-			setGoalInputValue(value.trim());
-		}
+	const handleYearInputChange = ({ target: { value } }) => {
+		setYearInputValue(value.trim());
 	};
 
 	const subtractOne = () => {
@@ -201,14 +197,13 @@ export const App = () => {
 					<div className="display-flex align-items-center">
 						<GoalSelect
 							goalsArray={goalsArray}
-							handleInputChange={handleInputChange}
 							goal={goal.value}
 							handleGoalChange={goal.handleChange}
 						/>
 						<GoalCreator
 							saveGoal={saveGoal}
-							goalInputValue={goalInputValue}
-							handleInputChange={handleInputChange}
+							goalInputValue={goalInput.value}
+							handleGoalInputChange={goalInput.handleChange}
 							sticker={sticker.value}
 							handleStickerChange={sticker.handleChange}
 						/>
@@ -220,7 +215,7 @@ export const App = () => {
 					<YearSwitcher
 						year={year}
 						yearInputValue={yearInputValue}
-						handleInputChange={handleInputChange}
+						handleYearInputChange={handleYearInputChange}
 						subtractOne={subtractOne}
 						addOne={addOne}
 						handleSubmit={handleSubmit}

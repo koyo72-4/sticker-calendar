@@ -18,11 +18,10 @@ exports[`App renders a calendar 1`] = `
           goal=""
           goalsArray={Array []}
           handleGoalChange={[Function]}
-          handleInputChange={[Function]}
         />
         <GoalCreator
           goalInputValue=""
-          handleInputChange={[Function]}
+          handleGoalInputChange={[Function]}
           handleStickerChange={[Function]}
           saveGoal={[Function]}
           sticker="star"
@@ -34,9 +33,9 @@ exports[`App renders a calendar 1`] = `
       />
       <ForwardRef
         addOne={[Function]}
-        handleInputChange={[Function]}
         handleKeyPress={[Function]}
         handleSubmit={[Function]}
+        handleYearInputChange={[Function]}
         subtractOne={[Function]}
         updateYear={[Function]}
         year={2020}

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 export const YearSwitcher = React.forwardRef((
-    { year, yearInputValue, handleInputChange, subtractOne, addOne, handleSubmit, handleKeyPress },
+    { year, yearInputValue, handleYearInputChange, subtractOne, addOne, handleSubmit, handleKeyPress },
     ref
 ) => (
     <div className="y-margin-15">
@@ -21,7 +21,7 @@ export const YearSwitcher = React.forwardRef((
                 pattern="^([1-9][7-9][5-9][3-9]|[1-9][8-9][0-9]{2}|[2-9][0-9]{3}|[1-9]\d{4})$"
                 title="Please enter a valid year between 1753 and 99999, inclusive."
                 value={yearInputValue}
-                onChange={handleInputChange}
+                onChange={handleYearInputChange}
                 onKeyPress={handleKeyPress}
             />
             <button

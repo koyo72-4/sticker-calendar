@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { stickerMap } from '../util/stickers';
 import '../css/App.css';
 
-export const GoalCreator = ({ saveGoal, goalInputValue, handleInputChange, sticker, handleStickerChange }) => {
+export const GoalCreator = ({ saveGoal, goalInputValue, handleGoalInputChange, sticker, handleStickerChange }) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -33,7 +33,7 @@ export const GoalCreator = ({ saveGoal, goalInputValue, handleInputChange, stick
                             name="name"
                             id="goal-input"
                             value={goalInputValue}
-                            onChange={handleInputChange}
+                            onChange={handleGoalInputChange}
                         />
                     </div>
                     <div>
