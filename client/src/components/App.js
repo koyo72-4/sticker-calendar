@@ -121,7 +121,7 @@ export const App = () => {
 		const today = new Date();
 
 		const starDayObject = {
-			year,
+			year: today.getFullYear(),
 			month: MONTHS[today.getMonth()],
 			day: today.getDate(),
 			goals: checkedArray
