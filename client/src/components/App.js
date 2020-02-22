@@ -106,12 +106,6 @@ export const App = () => {
         }
 	};
 
-	const handleKeyPress = event => {
-		if (event.charCode === 13) {
-			handleSubmit(event);
-		}
-	};
-
 	const handleTodaySubmit = event => {
 		event.preventDefault();
 		const today = new Date();
@@ -225,7 +219,6 @@ export const App = () => {
 						subtractOne={subtractOne}
 						addOne={addOne}
 						handleSubmit={handleSubmit}
-						handleKeyPress={handleKeyPress}
 						updateYear={updateYear}
 						ref={formRef}
 					/>
