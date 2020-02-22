@@ -80,29 +80,19 @@ export const App = () => {
 			.then(getStarredDays);
 	};
 
-	const updateYear = newYear => {
-		setYear(newYear);
-		setPopulatedYear(populateYear(newYear));
-		setYearInputValue(newYear.toString());
-	};
-
 	const handleYearInputChange = ({ target: { value } }) => {
 		setYearInputValue(value.trim());
 	};
 
-	const subtractOne = () => {
-		updateYear(year - 1);
-	};
+	const subtractOne = () => setYear(year - 1);
 
-	const addOne = () => {
-		updateYear(year + 1);
-	};
+	const addOne = () => setYear(year + 1);
 
 	const handleSubmit = event => {
         const formIsValid = formRef.current.reportValidity();
         if (formIsValid) {
             event.preventDefault();
-            updateYear(parseInt(yearInputValue, 10));
+            setYear(parseInt(yearInputValue, 10));
         }
 	};
 
@@ -180,6 +170,11 @@ export const App = () => {
 	}, [year, goalsArray]);
 
 	useEffect(() => {
+		setPopulatedYear(populateYear(year));
+		setYearInputValue(year.toString());
+	}, [year]);
+
+	useEffect(() => {
 		getGoals();
 	}, []);
 
@@ -219,7 +214,6 @@ export const App = () => {
 						subtractOne={subtractOne}
 						addOne={addOne}
 						handleSubmit={handleSubmit}
-						updateYear={updateYear}
 						ref={formRef}
 					/>
 					{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
