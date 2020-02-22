@@ -55,10 +55,6 @@ export const App = () => {
 	const goalApi = new GoalApi();
 	const dayApi = new DayApi();
 
-	const observer = new IntersectionObserver(intersectionCallback, {
-		threshold: [...Array(101)].map((value, index, array) => index / (array.length - 1))
-	});
-
 	const getStarredDays = () => {
 		dayApi.getDays(year)
 			.then(result => {
@@ -174,14 +170,24 @@ export const App = () => {
 	};
 
 	useEffect(() => {
-		getStarredDays();
-		getGoals();
-		monthRefs.current.forEach(month => observer.observe(month.current));
-	}, []);
+		const observer = new IntersectionObserver(intersectionCallback, {
+			threshold: [...Array(101)].map((value, index, array) => index / (array.length - 1))
+		});
+		const animatedMonths = monthRefs.current;
+
+		animatedMonths.forEach(month => observer.observe(month.current));
+		return () => {
+			animatedMonths.forEach(month => observer.unobserve(month.current));
+		};
+	}, [year]);
 
 	useEffect(() => {
 		getStarredDays();
 	}, [year, goalsArray]);
+
+	useEffect(() => {
+		getGoals();
+	}, []);
 
 	return (
 		<div className="container">
