@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useReducer } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import { Month } from './Month';
 import { GoalSelect } from './GoalSelect';
@@ -35,10 +35,23 @@ function useFormField(initialValue) {
 	};
 }
 
+function yearReducer(state, action) {
+	switch (action.type) {
+		case 'change':
+			return action.newYear;
+		case 'subtractOne':
+			return state - 1;
+		case 'addOne':
+			return state + 1;
+		default:
+			throw new Error('yearReducer error: unexpected action');
+	}
+}
+
 export const App = () => {
 	const currentYear = new Date().getFullYear();
+	const [ year, dispatchYear ] = useReducer(yearReducer, currentYear);
 
-	const [ year, setYear ] = useState(currentYear);
 	const [ populatedYear, setPopulatedYear ] = useState(populateYear(currentYear));
 	const [ yearInputValue, setYearInputValue ] = useState(currentYear.toString());
 	const [ goalsArray, setGoalsArray ] = useState([]);
@@ -84,15 +97,14 @@ export const App = () => {
 		setYearInputValue(value.trim());
 	};
 
-	const subtractOne = () => setYear(prevYear => prevYear - 1);
-
-	const addOne = () => setYear(prevYear => prevYear + 1);
-
 	const handleSubmit = event => {
         const formIsValid = formRef.current.reportValidity();
         if (formIsValid) {
             event.preventDefault();
-            setYear(parseInt(yearInputValue, 10));
+            dispatchYear({
+				type: 'change',
+				newYear: parseInt(yearInputValue, 10)
+			});
         }
 	};
 
@@ -211,8 +223,7 @@ export const App = () => {
 						year={year}
 						yearInputValue={yearInputValue}
 						handleYearInputChange={handleYearInputChange}
-						subtractOne={subtractOne}
-						addOne={addOne}
+						dispatchYear={dispatchYear}
 						handleSubmit={handleSubmit}
 						ref={formRef}
 					/>

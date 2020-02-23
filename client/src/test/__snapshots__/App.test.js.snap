@@ -32,10 +32,9 @@ exports[`App renders a calendar 1`] = `
         handleEditGoals={[Function]}
       />
       <ForwardRef
-        addOne={[Function]}
+        dispatchYear={[Function]}
         handleSubmit={[Function]}
         handleYearInputChange={[Function]}
-        subtractOne={[Function]}
         year={2020}
         yearInputValue="2020"
       />
