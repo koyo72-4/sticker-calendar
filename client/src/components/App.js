@@ -84,9 +84,9 @@ export const App = () => {
 		setYearInputValue(value.trim());
 	};
 
-	const subtractOne = () => setYear(year - 1);
+	const subtractOne = () => setYear(prevYear => prevYear - 1);
 
-	const addOne = () => setYear(year + 1);
+	const addOne = () => setYear(prevYear => prevYear + 1);
 
 	const handleSubmit = event => {
         const formIsValid = formRef.current.reportValidity();
