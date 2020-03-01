@@ -31,12 +31,11 @@ exports[`App renders a calendar 1`] = `
         goalsArray={Array []}
         handleEditGoals={[Function]}
       />
-      <ForwardRef
+      <YearSwitcher
         dispatchYear={[Function]}
-        handleSubmit={[Function]}
-        handleYearInputChange={[Function]}
+        inputValue="2020"
+        setInputValue={[Function]}
         year={2020}
-        yearInputValue="2020"
       />
       <p>
         No stars have yet been achieved this year. You can do it!

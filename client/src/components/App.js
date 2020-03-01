@@ -64,7 +64,6 @@ export const App = () => {
 	const goalInput = useFormField('');
 
 	const monthRefs = useRef([...Array(12)].map(value => React.createRef()));
-	const formRef = useRef();
 	const goalApi = new GoalApi();
 	const dayApi = new DayApi();
 
@@ -91,21 +90,6 @@ export const App = () => {
 
 		dayApi[starMethod](starDayObject)
 			.then(getStarredDays);
-	};
-
-	const handleYearInputChange = ({ target: { value } }) => {
-		setYearInputValue(value.trim());
-	};
-
-	const handleSubmit = event => {
-        const formIsValid = formRef.current.reportValidity();
-        if (formIsValid) {
-            event.preventDefault();
-            dispatchYear({
-				type: 'change',
-				newYear: parseInt(yearInputValue, 10)
-			});
-        }
 	};
 
 	const handleTodaySubmit = event => {
@@ -221,11 +205,9 @@ export const App = () => {
 					/>
 					<YearSwitcher
 						year={year}
-						yearInputValue={yearInputValue}
-						handleYearInputChange={handleYearInputChange}
+						inputValue={yearInputValue}
+						setInputValue={setYearInputValue}
 						dispatchYear={dispatchYear}
-						handleSubmit={handleSubmit}
-						ref={formRef}
 					/>
 					{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
 				</div>
