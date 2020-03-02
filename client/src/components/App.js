@@ -55,7 +55,6 @@ export const App = () => {
 	const [ populatedYear, setPopulatedYear ] = useState(populateYear(currentYear));
 	const [ yearInputValue, setYearInputValue ] = useState(currentYear.toString());
 	const [ goalsArray, setGoalsArray ] = useState([]);
-	const [ checkedArray, setCheckedArray ] = useState([]);
 	const [ starredDays, setStarredDays ] = useState([]);
 	const [ showTodayAlert, setShowTodayAlert ] = useState(false);
 
@@ -69,9 +68,7 @@ export const App = () => {
 
 	const getStarredDays = () => {
 		dayApi.getDays(year)
-			.then(result => {
-				setStarredDays(result);
-			});
+			.then(setStarredDays);
 	};
 
 	const getGoals = () => {
@@ -90,32 +87,6 @@ export const App = () => {
 
 		dayApi[starMethod](starDayObject)
 			.then(getStarredDays);
-	};
-
-	const handleTodaySubmit = event => {
-		event.preventDefault();
-		const today = new Date();
-
-		const starDayObject = {
-			year: today.getFullYear(),
-			month: MONTHS[today.getMonth()],
-			day: today.getDate(),
-			goals: checkedArray
-		};
-
-		dayApi.addStars(starDayObject)
-			.then(getStarredDays)
-			.then(() => setShowTodayAlert(true));
-
-		setCheckedArray([]);
-	};
-
-	const handleTodayChange = ({ target: { name } }) => {
-		if (checkedArray.includes(name)) {
-			setCheckedArray(checkedArray.filter(item => item !== name));
-		} else {
-			setCheckedArray([...checkedArray, name]);
-		}
 	};
 
 	const saveGoal = (name, sticker) => {
@@ -214,9 +185,8 @@ export const App = () => {
 				<div style={{marginLeft: "50px"}}>
 					<TodaysStars
 						goalsArray={goalsArray}
-						checkedArray={checkedArray}
-						handleTodayChange={handleTodayChange}
-						handleTodaySubmit={handleTodaySubmit}
+						setShowTodayAlert={setShowTodayAlert}
+						getStarredDays={getStarredDays}
 					/>
 				</div>
 			</div>

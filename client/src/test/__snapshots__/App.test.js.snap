@@ -49,10 +49,9 @@ exports[`App renders a calendar 1`] = `
       }
     >
       <TodaysStars
-        checkedArray={Array []}
+        getStarredDays={[Function]}
         goalsArray={Array []}
-        handleTodayChange={[Function]}
-        handleTodaySubmit={[Function]}
+        setShowTodayAlert={[Function]}
       />
     </div>
   </div>
