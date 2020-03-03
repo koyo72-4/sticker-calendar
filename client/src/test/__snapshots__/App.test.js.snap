@@ -20,11 +20,7 @@ exports[`App renders a calendar 1`] = `
           handleGoalChange={[Function]}
         />
         <GoalCreator
-          goalInputValue=""
-          handleGoalInputChange={[Function]}
-          handleStickerChange={[Function]}
-          saveGoal={[Function]}
-          sticker="star"
+          getGoals={[Function]}
         />
       </div>
       <GoalEditor

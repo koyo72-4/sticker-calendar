@@ -2,12 +2,27 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { stickerMap } from '../util/stickers';
+import { useFormField } from '../util/useFormField';
+import GoalApi from '../util/goalApi';
 import '../css/App.css';
 
-export const GoalCreator = ({ saveGoal, goalInputValue, handleGoalInputChange, sticker, handleStickerChange }) => {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+const goalApi = new GoalApi();
+
+export const GoalCreator = ({ getGoals }) => {
+    const [showModal, setShowModal] = useState(false);
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
+    const goalInput = useFormField('');
+    const sticker = useFormField('star');
+
+    const saveGoal = (name, sticker) => {
+		const goalObject = {
+			name,
+			sticker
+		};
+		goalApi.createGoal(goalObject)
+			.then(getGoals);
+	};
     
     return (
         <>
@@ -19,7 +34,7 @@ export const GoalCreator = ({ saveGoal, goalInputValue, handleGoalInputChange, s
                 <span aria-hidden="true">+</span>
             </Button>
             <Modal
-                show={show}
+                show={showModal}
                 onHide={handleClose}
             >
                 <Modal.Header closeButton>
@@ -32,8 +47,7 @@ export const GoalCreator = ({ saveGoal, goalInputValue, handleGoalInputChange, s
                             type="text"
                             name="name"
                             id="goal-input"
-                            value={goalInputValue}
-                            onChange={handleGoalInputChange}
+                            {...goalInput}
                         />
                     </div>
                     <div>
@@ -41,8 +55,7 @@ export const GoalCreator = ({ saveGoal, goalInputValue, handleGoalInputChange, s
                         <select
                             id="sticker-select"
                             name="sticker"
-                            value={sticker}
-                            onChange={handleStickerChange}
+                            {...sticker}
                             className="select-fontawesome"
                         >
                             {Object.values(stickerMap).map(([faComponent, option]) => option)}
@@ -50,7 +63,7 @@ export const GoalCreator = ({ saveGoal, goalInputValue, handleGoalInputChange, s
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => saveGoal(goalInputValue, sticker)}>
+                    <Button onClick={() => saveGoal(goalInput.value, sticker.value)}>
                         Save
                     </Button>
                 </Modal.Footer>

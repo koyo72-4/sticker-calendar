@@ -7,6 +7,7 @@ import { GoalEditor } from './GoalEditor';
 import { YearSwitcher } from './YearSwitcher';
 import { TodaysStars } from './TodaysStars';
 import { populateYear, MONTHS } from '../util/months';
+import { useFormField } from '../util/useFormField';
 import GoalApi from '../util/goalApi';
 import DayApi from '../util/dayApi';
 import '../css/App.css';
@@ -24,16 +25,6 @@ const intersectionCallback = (entries, observer) => {
 		}
 	});
 };
-
-function useFormField(initialValue) {
-	const [ value, setValue ] = useState(initialValue);
-	return {
-		value,
-		handleChange: ({ target: { value } }) => {
-			setValue(value);
-		}
-	};
-}
 
 function yearReducer(state, action) {
 	switch (action.type) {
@@ -59,8 +50,6 @@ export const App = () => {
 	const [ showTodayAlert, setShowTodayAlert ] = useState(false);
 
 	const goal = useFormField('');
-	const sticker = useFormField('star');
-	const goalInput = useFormField('');
 
 	const monthRefs = useRef([...Array(12)].map(value => React.createRef()));
 	const goalApi = new GoalApi();
@@ -87,15 +76,6 @@ export const App = () => {
 
 		dayApi[starMethod](starDayObject)
 			.then(getStarredDays);
-	};
-
-	const saveGoal = (name, sticker) => {
-		const goalObject = {
-			name,
-			sticker
-		};
-		goalApi.createGoal(goalObject)
-			.then(getGoals);
 	};
 
 	const handleEditGoals = goalsToKeep => {
@@ -160,14 +140,10 @@ export const App = () => {
 						<GoalSelect
 							goalsArray={goalsArray}
 							goal={goal.value}
-							handleGoalChange={goal.handleChange}
+							handleGoalChange={goal.onChange}
 						/>
 						<GoalCreator
-							saveGoal={saveGoal}
-							goalInputValue={goalInput.value}
-							handleGoalInputChange={goalInput.handleChange}
-							sticker={sticker.value}
-							handleStickerChange={sticker.handleChange}
+							getGoals={getGoals}
 						/>
 					</div>
 					<GoalEditor
