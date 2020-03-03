@@ -15,9 +15,9 @@ exports[`App renders a calendar 1`] = `
         className="display-flex align-items-center"
       >
         <GoalSelect
-          goal=""
           goalsArray={Array []}
-          handleGoalChange={[Function]}
+          onChange={[Function]}
+          value=""
         />
         <GoalCreator
           getGoals={[Function]}
@@ -52,8 +52,8 @@ exports[`App renders a calendar 1`] = `
     </div>
   </div>
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="0"
     month={
       Array [
@@ -106,10 +106,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="January"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="1"
     month={
       Array [
@@ -162,10 +163,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="February"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="2"
     month={
       Array [
@@ -218,10 +220,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="March"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="3"
     month={
       Array [
@@ -274,10 +277,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="April"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="4"
     month={
       Array [
@@ -339,10 +343,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="May"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="5"
     month={
       Array [
@@ -395,10 +400,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="June"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="6"
     month={
       Array [
@@ -451,10 +457,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="July"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="7"
     month={
       Array [
@@ -516,10 +523,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="August"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="8"
     month={
       Array [
@@ -572,10 +580,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="September"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="9"
     month={
       Array [
@@ -628,10 +637,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="October"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="10"
     month={
       Array [
@@ -684,10 +694,11 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="November"
     starredDays={Array []}
+    year={2020}
   />
   <ForwardRef
+    getStarredDays={[Function]}
     goal=""
-    handleClick={[Function]}
     key="11"
     month={
       Array [
@@ -740,6 +751,7 @@ exports[`App renders a calendar 1`] = `
     }
     monthName="December"
     starredDays={Array []}
+    year={2020}
   />
 </div>
 `;

@@ -1,14 +1,14 @@
 import React from 'react';
 
-export const GoalSelect = ({ goal, goalsArray, handleGoalChange }) => {
+export const GoalSelect = ({ goalsArray, value, onChange }) => {
     return (
         <div className="y-margin-15">
             <label htmlFor="goal-select">What is your goal? </label>
             <select
                 id="goal-select"
                 name="goal"
-                value={goal}
-                onChange={handleGoalChange}
+                value={value}
+                onChange={onChange}
             >
                 <option value="">All Goals</option>
                 {goalsArray.map((goal, index) => {

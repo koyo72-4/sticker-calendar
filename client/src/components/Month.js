@@ -4,7 +4,7 @@ import { DAYS } from '../util/months';
 import '../css/Month.css';
 
 export const Month = React.forwardRef((
-    { month, monthName, starredDays, goal, handleClick },
+    { month, monthName, starredDays, goal, year, getStarredDays },
     ref
 ) => (
     <table
@@ -43,10 +43,12 @@ export const Month = React.forwardRef((
                                     <Day
                                         key={`week${index}day${i}`}
                                         day={day}
-                                        monthName={monthName}
+                                        month={monthName}
+                                        year={year}
                                         starred={starred}
                                         stars={starsToDisplay}
-                                        handleClick={handleClick}
+                                        goal={goal}
+                                        getStarredDays={getStarredDays}
                                     />
                                 );
                             } else {

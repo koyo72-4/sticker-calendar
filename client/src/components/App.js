@@ -65,19 +65,6 @@ export const App = () => {
 			.then(setGoalsArray);
 	};
 
-	const handleClick = (month, day, alreadyStarred) => {
-		const starDayObject = {
-			year,
-			month,
-			day,
-			goal: goal.value
-		};
-		const starMethod = alreadyStarred ? 'addStarToDay' : 'createStarDay';
-
-		dayApi[starMethod](starDayObject)
-			.then(getStarredDays);
-	};
-
 	const handleEditGoals = goalsToKeep => {
 		const goalsToChange = goalsToKeep.filter(goal => {
 			const originalGoal = goalsArray.find(({ name }) => name === goal.name);
@@ -139,8 +126,7 @@ export const App = () => {
 					<div className="display-flex align-items-center">
 						<GoalSelect
 							goalsArray={goalsArray}
-							goal={goal.value}
-							handleGoalChange={goal.onChange}
+							{...goal}
 						/>
 						<GoalCreator
 							getGoals={getGoals}
@@ -177,9 +163,10 @@ export const App = () => {
 						monthName={monthName}
 						starredDays={starredDaysInMonth}
 						goal={goal.value}
-						handleClick={handleClick}
+						year={year}
 						key={index}
 						ref={monthRefs.current[index]}
+						getStarredDays={getStarredDays}
 					/>
 				);
 			})}
