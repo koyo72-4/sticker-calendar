@@ -4,7 +4,7 @@ import { DAYS } from '../util/months';
 import '../css/Month.css';
 
 export const Month = React.forwardRef((
-    { month, monthName, starredDays, goal, year, getStarredDays },
+    { month, monthName, starredDays, goal, year },
     ref
 ) => (
     <table
@@ -48,7 +48,6 @@ export const Month = React.forwardRef((
                                         starred={starred}
                                         stars={starsToDisplay}
                                         goal={goal}
-                                        getStarredDays={getStarredDays}
                                     />
                                 );
                             } else {

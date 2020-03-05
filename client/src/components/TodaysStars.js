@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { MONTHS } from '../util/months';
 import DayApi from '../util/dayApi';
+import FetchDataContext from '../util/FetchDataContext';
 
 const dayApi = new DayApi();
 
-export const TodaysStars = ({ goalsArray, setShowTodayAlert, getStarredDays }) => {
+export const TodaysStars = ({ goalsArray, setShowTodayAlert }) => {
     const [ checkedArray, setCheckedArray ] = useState([]);
+    const { getStarredDays } = useContext(FetchDataContext);
 
     const handleSubmit = event => {
 		event.preventDefault();

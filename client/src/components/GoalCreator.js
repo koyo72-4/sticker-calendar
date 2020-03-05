@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { stickerMap } from '../util/stickers';
 import { useFormField } from '../util/useFormField';
 import GoalApi from '../util/goalApi';
+import FetchDataContext from '../util/FetchDataContext';
 import '../css/App.css';
 
 const goalApi = new GoalApi();
 
-export const GoalCreator = ({ getGoals }) => {
+export const GoalCreator = () => {
     const [showModal, setShowModal] = useState(false);
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
     const goalInput = useFormField('');
     const sticker = useFormField('star');
+    const { getGoals } = useContext(FetchDataContext);
 
     const saveGoal = (name, sticker) => {
 		const goalObject = {

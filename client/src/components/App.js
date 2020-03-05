@@ -10,7 +10,11 @@ import { populateYear, MONTHS } from '../util/months';
 import { useFormField } from '../util/useFormField';
 import GoalApi from '../util/goalApi';
 import DayApi from '../util/dayApi';
+import FetchDataContext from '../util/FetchDataContext';
 import '../css/App.css';
+
+const goalApi = new GoalApi();
+const dayApi = new DayApi();
 
 const intersectionCallback = (entries, observer) => {
 	const changeOpacity = (element, intersectionRatio) => {
@@ -42,18 +46,13 @@ function yearReducer(state, action) {
 export const App = () => {
 	const currentYear = new Date().getFullYear();
 	const [ year, dispatchYear ] = useReducer(yearReducer, currentYear);
-
 	const [ populatedYear, setPopulatedYear ] = useState(populateYear(currentYear));
 	const [ yearInputValue, setYearInputValue ] = useState(currentYear.toString());
 	const [ goalsArray, setGoalsArray ] = useState([]);
 	const [ starredDays, setStarredDays ] = useState([]);
 	const [ showTodayAlert, setShowTodayAlert ] = useState(false);
-
 	const goal = useFormField('');
-
 	const monthRefs = useRef([...Array(12)].map(value => React.createRef()));
-	const goalApi = new GoalApi();
-	const dayApi = new DayApi();
 
 	const getStarredDays = () => {
 		dayApi.getDays(year)
@@ -113,63 +112,61 @@ export const App = () => {
 	}, []);
 
 	return (
-		<div className="container">
-			{showTodayAlert &&
-				<Alert variant="success" onClose={() => setShowTodayAlert(false)} dismissible>
-					<Alert.Heading>Nice work!</Alert.Heading>
-					<p>Your calendar has been updated to show what you achieved today.</p>
-				</Alert>
-			}
-			<h1>Sticker Calendar</h1>
-			<div className="display-flex">
-				<div>
-					<div className="display-flex align-items-center">
-						<GoalSelect
+		<FetchDataContext.Provider value={{ getStarredDays, getGoals }}>
+			<div className="container">
+				{showTodayAlert &&
+					<Alert variant="success" onClose={() => setShowTodayAlert(false)} dismissible>
+						<Alert.Heading>Nice work!</Alert.Heading>
+						<p>Your calendar has been updated to show what you achieved today.</p>
+					</Alert>
+				}
+				<h1>Sticker Calendar</h1>
+				<div className="display-flex">
+					<div>
+						<div className="display-flex align-items-center">
+							<GoalSelect
+								goalsArray={goalsArray}
+								{...goal}
+							/>
+							<GoalCreator />
+						</div>
+						<GoalEditor
 							goalsArray={goalsArray}
-							{...goal}
+							handleEditGoals={handleEditGoals}
 						/>
-						<GoalCreator
-							getGoals={getGoals}
+						<YearSwitcher
+							year={year}
+							inputValue={yearInputValue}
+							setInputValue={setYearInputValue}
+							dispatchYear={dispatchYear}
+						/>
+						{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
+					</div>
+					<div style={{marginLeft: "50px"}}>
+						<TodaysStars
+							goalsArray={goalsArray}
+							setShowTodayAlert={setShowTodayAlert}
 						/>
 					</div>
-					<GoalEditor
-						goalsArray={goalsArray}
-						handleEditGoals={handleEditGoals}
-					/>
-					<YearSwitcher
-						year={year}
-						inputValue={yearInputValue}
-						setInputValue={setYearInputValue}
-						dispatchYear={dispatchYear}
-					/>
-					{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
 				</div>
-				<div style={{marginLeft: "50px"}}>
-					<TodaysStars
-						goalsArray={goalsArray}
-						setShowTodayAlert={setShowTodayAlert}
-						getStarredDays={getStarredDays}
-					/>
-				</div>
+				{populatedYear.map((month, index) => {
+					const monthName = MONTHS[index];
+					const starredDaysInMonth = starredDays.filter(starredDay =>
+						starredDay.year === year && starredDay.month === monthName
+					);
+					return (
+						<Month
+							month={month}
+							monthName={monthName}
+							starredDays={starredDaysInMonth}
+							goal={goal.value}
+							year={year}
+							key={index}
+							ref={monthRefs.current[index]}
+						/>
+					);
+				})}
 			</div>
-			{populatedYear.map((month, index) => {
-				const monthName = MONTHS[index];
-				const starredDaysInMonth = starredDays.filter(starredDay =>
-					starredDay.year === year && starredDay.month === monthName
-				);
-				return (
-					<Month
-						month={month}
-						monthName={monthName}
-						starredDays={starredDaysInMonth}
-						goal={goal.value}
-						year={year}
-						key={index}
-						ref={monthRefs.current[index]}
-						getStarredDays={getStarredDays}
-					/>
-				);
-			})}
-		</div>
+		</FetchDataContext.Provider>
 	);
 };
