@@ -1,19 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { stickerMap } from '../util/stickers';
+import GoalApi from '../util/goalApi';
+import FetchDataContext from '../util/FetchDataContext';
 import '../css/App.css';
 
-export const GoalEditor = ({ goalsArray, handleEditGoals }) => {
+const goalApi = new GoalApi();
+
+export const GoalEditor = ({ goalsArray }) => {
     const [ showModal, setShowModal ] = useState(false);
     const [ goalsToShow, setGoalsToShow ] = useState(goalsArray);
+    const { getGoals } = useContext(FetchDataContext);
+
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
+
     const hideGoal = goalName => {
         setGoalsToShow(goalsToShow.filter(({ name }) => name !== goalName));
     };
+
     const changeSticker = (goal, { target: { value } }) => {
         const updatedGoals = goalsToShow.map(originalGoal => {
             if (originalGoal.name === goal.name) {
@@ -24,6 +32,28 @@ export const GoalEditor = ({ goalsArray, handleEditGoals }) => {
         });
         setGoalsToShow(updatedGoals);
     };
+
+    const handleEdit = goalsToKeep => {
+		const goalsToChange = goalsToKeep.filter(goal => {
+			const originalGoal = goalsArray.find(({ name }) => name === goal.name);
+			return originalGoal && originalGoal.sticker !== goal.sticker;
+		});
+
+		const goalsToDelete = goalsArray.filter(({ name }) =>
+			!goalsToKeep.some(goal => goal.name === name));
+
+		if (goalsToDelete.length && goalsToChange.length) {
+			goalApi.deleteGoals(goalsToDelete)
+				.then(() => goalApi.updateGoals(goalsToChange))
+				.then(getGoals);
+		} else if (goalsToDelete.length) {
+			goalApi.deleteGoals(goalsToDelete)
+				.then(getGoals);
+		} else if (goalsToChange.length) {
+			goalApi.updateGoals(goalsToChange)
+				.then(getGoals);
+		}
+	};
 
     useEffect(() => {
         setGoalsToShow(goalsArray);
@@ -81,9 +111,7 @@ export const GoalEditor = ({ goalsArray, handleEditGoals }) => {
                     })}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button
-                        onClick={() => handleEditGoals(goalsToShow)}
-                    >
+                    <Button onClick={() => handleEdit(goalsToShow)}>
                         Save
                     </Button>
                 </Modal.Footer>

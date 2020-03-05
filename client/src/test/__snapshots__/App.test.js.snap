@@ -31,7 +31,6 @@ exports[`App renders a calendar 1`] = `
         </div>
         <GoalEditor
           goalsArray={Array []}
-          handleEditGoals={[Function]}
         />
         <YearSwitcher
           dispatchYear={[Function]}

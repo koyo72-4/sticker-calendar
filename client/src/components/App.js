@@ -64,28 +64,6 @@ export const App = () => {
 			.then(setGoalsArray);
 	};
 
-	const handleEditGoals = goalsToKeep => {
-		const goalsToChange = goalsToKeep.filter(goal => {
-			const originalGoal = goalsArray.find(({ name }) => name === goal.name);
-			return originalGoal && originalGoal.sticker !== goal.sticker;
-		});
-
-		const goalsToDelete = goalsArray.filter(({ name }) =>
-			!goalsToKeep.some(goal => goal.name === name));
-
-		if (goalsToDelete.length && goalsToChange.length) {
-			goalApi.deleteGoals(goalsToDelete)
-				.then(() => goalApi.updateGoals(goalsToChange))
-				.then(getGoals);
-		} else if (goalsToDelete.length) {
-			goalApi.deleteGoals(goalsToDelete)
-				.then(getGoals);
-		} else if (goalsToChange.length) {
-			goalApi.updateGoals(goalsToChange)
-				.then(getGoals);
-		}
-	};
-
 	useEffect(() => {
 		const observer = new IntersectionObserver(intersectionCallback, {
 			threshold: [...Array(101)].map((value, index, array) => index / (array.length - 1))
@@ -130,10 +108,7 @@ export const App = () => {
 							/>
 							<GoalCreator />
 						</div>
-						<GoalEditor
-							goalsArray={goalsArray}
-							handleEditGoals={handleEditGoals}
-						/>
+						<GoalEditor goalsArray={goalsArray} />
 						<YearSwitcher
 							year={year}
 							inputValue={yearInputValue}
