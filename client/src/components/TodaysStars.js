@@ -40,8 +40,8 @@ export const TodaysStars = ({ goalsArray, setShowTodayAlert }) => {
         <form onSubmit={handleSubmit}>
             <fieldset>
                 <legend>What have you worked on today?</legend>
-                {goalsArray.map(({ name }) => (
-                    <>
+                {goalsArray.map(({ name, _id }) => (
+                    <React.Fragment key={_id}>
                         <input
                             type="checkbox"
                             id={name}
@@ -51,7 +51,7 @@ export const TodaysStars = ({ goalsArray, setShowTodayAlert }) => {
                         />
                         <label htmlFor={name}>{name}</label>
                         <br />
-                    </>
+                    </React.Fragment>
                 ))}
                 <button type="submit">Add to calendar</button>
             </fieldset>

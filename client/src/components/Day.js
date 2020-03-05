@@ -31,7 +31,10 @@ export const Day = ({ day, month, year, starred, stars, goal }) => {
                 {day}
                 {(stars && stars.length > 0) &&
                     stars.map(star => (
-                        <span className="star">
+                        <span
+                            key={star._id._id}
+                            className="star"
+                        >
                             {stickerMap[star._id.sticker][0]}
                             <span className="screen-reader-only">{star._id.sticker}</span>
                         </span>
