@@ -30,7 +30,7 @@ export const GoalCreator = () => {
         <>
             <Button
                 aria-label="Add a new goal"
-                style={{marginLeft: "15px"}}
+                className="left-margin-15"
                 onClick={handleShow}
             >
                 <span aria-hidden="true">+</span>

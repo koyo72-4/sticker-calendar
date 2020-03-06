@@ -93,7 +93,11 @@ export const App = () => {
 		<FetchDataContext.Provider value={{ getStarredDays, getGoals }}>
 			<div className="container">
 				{showTodayAlert &&
-					<Alert variant="success" onClose={() => setShowTodayAlert(false)} dismissible>
+					<Alert
+						variant="success"
+						onClose={() => setShowTodayAlert(false)}
+						dismissible
+					>
 						<Alert.Heading>Nice work!</Alert.Heading>
 						<p>Your calendar has been updated to show what you achieved today.</p>
 					</Alert>
@@ -117,7 +121,7 @@ export const App = () => {
 						/>
 						{!starredDays.length && <p>No stars have yet been achieved this year. You can do it!</p>}
 					</div>
-					<div style={{marginLeft: "50px"}}>
+					<div className="left-margin-50">
 						<TodaysStars
 							goalsArray={goalsArray}
 							setShowTodayAlert={setShowTodayAlert}

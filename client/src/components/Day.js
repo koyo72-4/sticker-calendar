@@ -36,7 +36,7 @@ export const Day = ({ day, month, year, starred, stars, goal }) => {
                             className="star"
                         >
                             {stickerMap[star._id.sticker][0]}
-                            <span className="screen-reader-only">{star._id.sticker}</span>
+                            <span className="sr-only">{star._id.sticker}</span>
                         </span>
                     ))
                 }

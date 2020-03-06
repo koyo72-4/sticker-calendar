@@ -42,14 +42,14 @@ export const YearSwitcher = ({ year, inputValue, setInputValue, dispatchYear }) 
             </form>
             {year > 1753 &&
                 <button onClick={() => dispatchYear({ type: 'subtractOne' })}>
-                    <FontAwesomeIcon icon={faCaretLeft} className="caret-left" />
+                    <FontAwesomeIcon icon={faCaretLeft} className="right-margin-10" />
                     {year - 1}
                 </button>
             }
             {year < 99999 &&
                 <button onClick={() => dispatchYear({ type: 'addOne' })}>
                     {year + 1}
-                    <FontAwesomeIcon icon={faCaretRight} className="caret-right" />
+                    <FontAwesomeIcon icon={faCaretRight} className="left-margin-10" />
                 </button>
             }
         </div>

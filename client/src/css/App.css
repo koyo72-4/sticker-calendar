@@ -6,10 +6,6 @@ p {
     margin: 0;
 }
 
-.hide {
-    display: none;
-}
-
 .dayButton {
     width: 100%;
     height: 100%;
@@ -20,14 +16,13 @@ p {
     margin-left: 15px;
 }
 
-.screen-reader-only {
-    position: absolute;
-    height: 1px;
-    width: 1px;
-    clip: rect(1px,1px,1px,1px);
-    clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
-    -webkit-clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
-    overflow: hidden !important;
+.select-fontawesome {
+    font-family: 'Font Awesome 5 Free', 'sans-serif';
+    font-weight: 900;
+}
+
+.hide {
+    display: none;
 }
 
 
@@ -49,6 +44,7 @@ table {
     border: 3px solid red;
     margin-top: 80px;
     transition: opacity 0.5s ease-in;
+    table-layout: fixed;
 }
 
 th,
@@ -62,24 +58,32 @@ td {
 
 /* Margin and padding utilities */
 
-.caret-left {
+.y-margin-15 {
+    margin: 15px 0;
+}
+
+.right-margin-10 {
     margin-right: 10px;
 }
 
-.caret-right {
-    margin-left: 10px;
-}
-
-.y-margin-15 {
-    margin: 15px 0;
+.right-margin-20 {
+    margin-right: 20px;
 }
 
 .bottom-margin-17 {
     margin-bottom: 17px;
 }
 
-.right-margin-20 {
-    margin-right: 20px;
+.left-margin-10 {
+    margin-left: 10px;
+}
+
+.left-margin-15 {
+    margin-left: 15px;
+}
+
+.left-margin-50 {
+    margin-left: 50px;
 }
 
 .left-padding-3 {
@@ -88,11 +92,6 @@ td {
 
 
 /* Flex utilities */
-
-.select-fontawesome {
-    font-family: 'Font Awesome 5 Free', 'sans-serif';
-    font-weight: 900;
-}
 
 .display-flex {
     display: flex;

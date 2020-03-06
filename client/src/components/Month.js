@@ -8,8 +8,7 @@ export const Month = React.forwardRef((
     ref
 ) => (
     <table
-        style={{tableLayout: 'fixed'}}
-        className={`${monthName} opacity0`}
+        className={`${monthName.toLowerCase()} opacity0`}
         ref={ref}
     >
         <caption>{monthName}</caption>

@@ -43,11 +43,7 @@ exports[`App renders a calendar 1`] = `
         </p>
       </div>
       <div
-        style={
-          Object {
-            "marginLeft": "50px",
-          }
-        }
+        className="left-margin-50"
       >
         <TodaysStars
           goalsArray={Array []}
