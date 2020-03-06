@@ -44,12 +44,12 @@ export const TodaysStars = ({ goalsArray, setShowTodayAlert }) => {
                     <React.Fragment key={_id}>
                         <input
                             type="checkbox"
-                            id={name}
+                            id={`today-goal-${_id}`}
                             name={name}
                             checked={checkedArray.includes(name)}
                             onChange={handleChange}
                         />
-                        <label htmlFor={name}>{name}</label>
+                        <label htmlFor={`today-goal-${_id}`}>{name}</label>
                         <br />
                     </React.Fragment>
                 ))}

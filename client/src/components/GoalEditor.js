@@ -88,9 +88,9 @@ export const GoalEditor = ({ goalsArray }) => {
                                     <span className="left-padding-3">{goal.name}</span>
                                 </div>
                                 <div>
-                                    <label htmlFor="sticker-select">Sticker: </label>
+                                    <label htmlFor={`editor-sticker-${goal._id}`}>Sticker: </label>
                                     <select
-                                        id="sticker-select"
+                                        id={`editor-sticker-${goal._id}`}
                                         name="sticker"
                                         value={goal.sticker}
                                         onChange={event => changeSticker(goal, event)}

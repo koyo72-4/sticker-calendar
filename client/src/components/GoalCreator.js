@@ -53,9 +53,9 @@ export const GoalCreator = () => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="sticker-select">Sticker: </label>
+                        <label htmlFor="creator-sticker-select">Sticker: </label>
                         <select
-                            id="sticker-select"
+                            id="creator-sticker-select"
                             name="sticker"
                             {...sticker}
                             className="select-fontawesome"
