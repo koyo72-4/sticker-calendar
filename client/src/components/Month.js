@@ -1,7 +1,7 @@
 import React from 'react';
 import { Day } from './Day';
 import { DAYS } from '../util/months';
-import '../css/Month.css';
+import '../css/App.css';
 
 export const Month = React.forwardRef((
     { month, monthName, starredDays, goal, year },

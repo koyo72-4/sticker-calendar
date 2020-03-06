@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { stickerMap } from '../util/stickers';
 import DayApi from '../util/dayApi';
 import FetchDataContext from '../util/FetchDataContext';
-import '../css/Day.css';
+import '../css/App.css';
 
 const dayApi = new DayApi();
 
